@@ -13,7 +13,6 @@ export default {
     }
   },
   created() {
-    this.checkNewbie()
   },
   computed: {
     isLogin() {
@@ -21,13 +20,7 @@ export default {
     }
   },
   methods: {
-    checkNewbie() {
-      if (this.isLogin) {
-        console.log(this)
-        console.log(this.user)
-      }
 
-    }
   }
 }
 </script>
