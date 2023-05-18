@@ -2,6 +2,18 @@ from rest_framework import serializers
 from .models import Accounts
 from dj_rest_auth.registration.serializers import RegisterSerializer
 
+class UserListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Accounts
+        fields = ['username', 'email', 'nickname', 'profile_img'] 
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Accounts
+        fields = ['nickname', 'email', 'profile_img'] 
+        # exclude = ['username', 'password', 'followings']
+
+
 class CustomRegisterSerializer(RegisterSerializer):
     nickname = serializers.CharField(required=True, max_length=150)
     # profile_img = serializers.ImageField(use_url=True)
