@@ -16,6 +16,7 @@ export default new Vuex.Store({
   state: {
     user: null,
     token: null,
+    userdata: null,
   },
   getters: {
     isLogin(state) {
@@ -27,6 +28,7 @@ export default new Vuex.Store({
       state.token = token
       //router.push({name: 'main'}) 
       //store/index.js $router 접근불가 -> import 해야 함
+      console.log('토큰받음')
       axios({
         method: 'get',
         url: `${API_URL}/accounts/user/`,
@@ -36,17 +38,38 @@ export default new Vuex.Store({
       })
         .then((res) => {
           console.log(res)
-          const user = res.data;
-          if (user.first_name) {
-            router.push({name: 'main'}) 
-          } else {
-            router.push({name: 'profile'})
-            
-          }
+          const user = res.data.pk
+          state.user = user
+          console.log(user)
+          axios({
+            method: 'get',
+            url: `${API_URL}/api/v1/users/${user}`,
+          })
+          .then((res) => {
+            console.log(res)
+            state.userdata = res.data
+            if (res.data.nickname) {
+              router.push({name: 'main'}) 
+            } else {
+              router.push({name: 'profile', params: { user_id: res.data.id } })
+            }
+          })
+          .else((err) => {
+            console.log(err)
+          })
+          // const user = res.data;
+          // console.log(user)
+          // state.user = user.pk;
+          
         })
         .catch((err) => {
           console.log(err)
         })
+    },
+    LOGOUT(state) {
+      state.token = null
+      state.user = null
+      router.push({name: 'main'})
     }
   },
   actions: {
@@ -89,7 +112,7 @@ export default new Vuex.Store({
         }
       })
       .then((res) => {
-        console.log(res)
+        console.log('토큰받기')
         context.commit('SAVE_TOKEN', res.data.key)
 
         
@@ -100,6 +123,9 @@ export default new Vuex.Store({
 
       console.log(username, password)
     },
+    LogOut(context) {
+      context.commit('LOGOUT')
+    }
   },
   modules: {
   }

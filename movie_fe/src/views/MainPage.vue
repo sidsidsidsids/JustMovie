@@ -1,6 +1,6 @@
 <template>
   <div>
-    
+    <span>Im HOME</span>
   </div>
 </template>
 
@@ -17,6 +17,9 @@ export default {
   computed: {
     isLogin() {
       return this.$store.getters.isLogin
+    },
+    user() {
+      return this.$store.state.user
     }
   },
   methods: {

@@ -2,14 +2,43 @@
   <div id="app">
     <nav>
       <router-link to="/">Home</router-link> |
-      <router-link to="/create">Create</router-link> |
-      <router-link to="/login">Login</router-link> |
-      <router-link to="/profile">Profile</router-link> 
+      <!-- <router-link to="/create">Create</router-link> | -->
+      <button v-if="isLogin" @click="logout">Logout</button>
+      <router-link v-else to="/login">Login</router-link> |
+      <router-link v-if="isLogin" :to="{ name: 'profile', params: { user_id: $store.state.user } }">Profile</router-link> 
     </nav>
     
     <router-view/>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'navBar',
+  data() {
+    return {
+
+    }
+  },
+  methods: {
+    logout() {
+      console.log('logout')
+      this.$store.dispatch('LogOut')
+    }
+
+  },
+  computed: {
+    // user() {
+    //   return this.$store.state.user
+    // },
+    isLogin() {
+      return this.$store.getters.isLogin
+    },
+  },
+  created() {
+  }
+}
+</script>
 
 <style>
 #app {
