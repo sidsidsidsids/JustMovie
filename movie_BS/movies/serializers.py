@@ -1,14 +1,19 @@
 from rest_framework import serializers
 from .models import Movies, Comments
-from accounts.serializers import AccountsSerializer
+from accounts.serializers import UserSerializer
 
 class MoviesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movies
-        fields = ['movie_id', 'title', 'poster_path', 'overview', 'vote_average', 'star_score']
+        fields = ['movie_id', 'title', 'poster_path', 'backdrop_path', 'overview', 'vote_average', 'star_score']
+
+class MovieDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Movies
+        fields = '__all__'
 
 class CommentsSerializer(serializers.ModelSerializer):
-    user = AccountsSerializer(read_only=True)  # 중첩된 시리얼라이저를 사용하여 사용자 필드 표현
+    user = UserSerializer(read_only=True)  # 중첩된 시리얼라이저를 사용하여 사용자 필드 표현
 
     class Meta:
         model = Comments
