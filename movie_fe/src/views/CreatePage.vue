@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id='join'>
     <h1>회원가입</h1>
     <form @submit.prevent="signUp">
       <label for="username">아이디 : </label>
@@ -61,5 +61,8 @@ export default {
 </script>
 
 <style>
-
+#join {
+  background-color: rgba(25, 22, 31, 1);
+  color:aliceblue;
+}
 </style>

@@ -17,10 +17,25 @@ export default new Vuex.Store({
     user: null,
     token: null,
     userdata: null,
+    movies: null,
   },
   getters: {
     isLogin(state) {
       return state.token ? true : false
+    },
+    getNowPlaying(state) {
+      if (state.movies) {
+        // 특정 영화 가져오기
+        const targets = [385687, 447365, 497828, 502356, 603692]
+        return state.movies.filter(movie => targets.includes(movie.movie_id))
+      }
+      return
+    },
+    getMovies(state) {
+      if (state.movies) {
+        return state.movies
+      }
+      return
     }
   },
   mutations: {
@@ -70,6 +85,19 @@ export default new Vuex.Store({
       state.token = null
       state.user = null
       router.push({name: 'main'})
+    },
+    GET_MOVIE(state) {
+      axios({
+        method: 'get',
+        url: `${API_URL}/movies/`
+      })
+      .then((res) => {
+        console.log(res)
+        state.movies = res.data
+      })
+      .catch((err) => {
+        console.log(err)
+      })
     }
   },
   actions: {

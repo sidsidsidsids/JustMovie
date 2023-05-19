@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id='profile'>
   <!-- 모달 부분 -->
     <div class="row">
       <div class="col text-center pt-2">
@@ -177,6 +177,10 @@ export default {
 </script>
 
 <style>
+#profile {
+  background-color: rgba(25, 22, 31, 1);
+  color:aliceblue;
+}
 #changeButton{
   background-color: greenyellow;
 }

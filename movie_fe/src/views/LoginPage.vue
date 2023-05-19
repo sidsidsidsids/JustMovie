@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id='logIn'>
     <h1>로그인</h1>
     <form @submit.prevent="login">
       <label for="username">아이디 : </label>
@@ -44,5 +44,8 @@ export default {
 </script>
 
 <style>
-
+#logIn {
+  background-color: rgba(25, 22, 31, 1);
+  color:aliceblue;
+}
 </style>
