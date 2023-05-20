@@ -1,11 +1,11 @@
 from rest_framework import serializers
-from .models import Movies, Comments
+from .models import Movies, Comments, Genre
 from accounts.serializers import UserSerializer
 
 class MoviesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movies
-        fields = ['movie_id', 'title', 'poster_path', 'backdrop_path', 'overview', 'vote_average', 'star_score']
+        fields = '__all__'
 
 class MovieDetailSerializer(serializers.ModelSerializer):
     class Meta:
@@ -30,3 +30,8 @@ class CommentsSerializer(serializers.ModelSerializer):
             movie=validated_data['movie']
         )
         return comment
+    
+class GenreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Genre
+        fields = '__all__'
