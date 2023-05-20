@@ -18,7 +18,7 @@
           </router-link>
         </div>
         <div class="button-container">
-          <router-link v-if="isLogin" :to="{ name: 'profile', params: { user_id: $store.state.user } }">My Account</router-link>
+          <router-link v-if="isLogin" :to="{ name: 'profile', params: { id: $store.state.user } }">My Account</router-link>
           <router-link v-else to="/login">로그인</router-link>
           <button v-if="isLogin" class="logout-button" @click="logout">Logout</button>
         </div>
@@ -42,7 +42,8 @@
             type="text" 
             v-model="searchQuery" 
             class="search-input" 
-            list="movie-options" />
+            list="movie-options"
+            @keyup.enter="search" />
             <datalist id="movie-options">
               <option v-for="movie in movies" :value="movie.title" :key="movie.id">
                 {{movie.title}}
@@ -81,8 +82,20 @@ export default {
       this.$store.dispatch('LogOut')
     },
     search() {
-      return
+      const foundMovie = this.movies.find(movie => movie.title === this.searchQuery);
+      if (foundMovie) {
+        // 일치하는 영화가 있는 경우 해당 영화의 movie_id를 파라미터로 가지고 특정 route로 이동
+        this.$router.push({ name: 'detail', params: { movie_id: foundMovie.movie_id } });
+      } else {
+        // 일치하는 영화가 없는 경우 메시지 표시
+        alert('정확한 영화 제목을 입력해주세요.');
+      }
+    },
+    checkUser() {
+      console.log('CHECKUSER')
+      console.log(this.$store.state.user)
     }
+
 
   },
   computed: {
@@ -100,6 +113,7 @@ export default {
     }
   },
   created() {
+    this.checkUser()
   }
 }
 </script>

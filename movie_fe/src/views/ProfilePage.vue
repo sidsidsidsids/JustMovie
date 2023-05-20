@@ -57,8 +57,8 @@
     </Modal>
   <!-- 모달 부분 끝 -->
     <div>
-      <p>{{ userdata.nickname }}</p>
-      <p>{{ userdata.email }}</p>
+      <p>닉네임: {{ userdata.nickname }}</p>
+      <p>이메일: {{ userdata.email }}</p>
       <img :src="userdata.profile_img" alt="invalid">
       <br>
       <button @click="tmpTest">데이터 검사기</button>
@@ -101,6 +101,7 @@ export default {
       console.log(this.$store.state.user)
       console.log(this.$store.state.token)
       console.log(this.$store.state.userdata)
+      console.log(this.$store.state.movies)
       console.log('aaa')
       console.log(this.userdata)
       axios({

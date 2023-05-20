@@ -5,14 +5,21 @@
       <img 
       :src="`https://image.tmdb.org/t/p/w185${movie.poster_path}`"
       alt="no image"
-      id="poster">
+      id="poster"
+      @click="gotoDetail(movie.movie_id)">
       <p>{{ movie.overview }}</p>
     </div>
 </template>
 
 <script>
 export default {
-  props: ['movie']
+  props: ['movie'],
+  methods:{
+    gotoDetail(movie_id) {
+      console.log('디테일로가요')
+      this.$router.push({ name: 'detail', params: { movie_id } })
+    }
+  }
 }
 </script>
 

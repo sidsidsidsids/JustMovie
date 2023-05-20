@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import MainPage from '../views/MainPage.vue'
 import CreatePage from '../views/CreatePage.vue'
 import LoginPage from '../views/LoginPage.vue'
-// import DetailPage from '../views/DetailPage.vue'
+import DetailPage from '../views/DetailPage.vue'
 import ProfilePage from '../views/ProfilePage.vue'
 // import FollowPage from '../views/FollowPage.vue'
 
@@ -27,11 +27,17 @@ const routes = [
     component: LoginPage
   },
   {
-    path: '/profile/:user_id', // user_id를 파라미터로 받음
+    path: '/profile/:id', // user_id를 파라미터로 받음
     name: 'profile',
     component: ProfilePage,
     // meta: { requiresAuth: true } // 인증이 필요한 페이지임을 표시
   },
+  {
+    path: '/detail/:movie_id', // movie_id를 파라미터로 받음
+    name: 'detail',
+    component: DetailPage,
+    // meta: { requiresAuth: true } // 인증이 필요한 페이지임을 표시
+  }
 ]
 
 const router = new VueRouter({
@@ -56,4 +62,5 @@ const router = new VueRouter({
 //     next()
 //   }
 // })
+
 export default router

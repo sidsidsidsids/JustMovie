@@ -4,7 +4,7 @@
         :src="`https://image.tmdb.org/t/p/w185${movie.poster_path}`"
         alt="no image"
         id="m_poster"
-        @click="gotoDetail">
+        @click="gotoDetail(movie.movie_id)">
   </div>
 </template>
 
@@ -12,9 +12,9 @@
 export default {
   props: ['movie'],
   methods:{
-    gotoDetail() {
+    gotoDetail(movie_id) {
       console.log('디테일로가요')
-      return
+      this.$router.push({ name: 'detail', params: { movie_id } })
     }
   }
 }
@@ -33,6 +33,7 @@ export default {
   cursor: pointer;
 }
 #m_poster:hover {
-  transform: scale(1.1)
+  transform: scale(1.1);
+  transition: transform .1s;
 }
 </style>

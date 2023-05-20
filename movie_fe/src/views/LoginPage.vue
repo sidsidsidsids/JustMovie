@@ -45,6 +45,9 @@ export default {
 
 <style>
 #logIn {
+  position: absolute;
+  width:84.3%;
+  height:auto;
   background-color: rgba(25, 22, 31, 1);
   color:aliceblue;
 }

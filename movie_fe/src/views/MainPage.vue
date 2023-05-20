@@ -5,14 +5,14 @@
     <div id="now_box">
       <NowPoster
       v-for="nowplay in nowplaying"
-      :key="nowplay.pk"
+      :key="nowplay.movie_id"
       :movie="nowplay" />
     </div>
     <h2>Popular Movies</h2>
     <div id="poster_box">
       <MoviePoster
       v-for="movie in shuffledMovie"
-      :key="movie.pk"
+      :key="movie.movie_id"
       :movie="movie"
       />
     </div>
@@ -81,6 +81,6 @@ export default {
 }
 #poster_box {
   display:flex;
-  width:1920px;
+  width:1600px;
 }
 </style>

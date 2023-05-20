@@ -18,6 +18,7 @@ export default new Vuex.Store({
     token: null,
     userdata: null,
     movies: null,
+    comments: null,
   },
   getters: {
     isLogin(state) {
@@ -36,6 +37,9 @@ export default new Vuex.Store({
         return state.movies
       }
       return
+    },
+    getMovieById: (state) => (movie_id) => {
+      return state.movies.find(movie => movie.movie_id === movie_id);
     }
   },
   mutations: {
@@ -52,25 +56,23 @@ export default new Vuex.Store({
         },
       })
         .then((res) => {
-          console.log(res)
           const user = res.data.pk
           state.user = user
-          console.log(user)
           axios({
             method: 'get',
             url: `${API_URL}/api/v1/users/${user}`,
           })
           .then((res) => {
-            console.log(res)
             state.userdata = res.data
             if (res.data.nickname) {
               router.push({name: 'main'}) 
             } else {
-              router.push({name: 'profile', params: { user_id: res.data.id } })
+              router.push({name: 'profile', params: { id: state.user } })
             }
           })
-          .else((err) => {
+          .catch((err) => {
             console.log(err)
+            alert('Broken User Data')
           })
           // const user = res.data;
           // console.log(user)
@@ -84,6 +86,7 @@ export default new Vuex.Store({
     LOGOUT(state) {
       state.token = null
       state.user = null
+      state.comments = null
       router.push({name: 'main'})
     },
     GET_MOVIE(state) {
@@ -91,12 +94,32 @@ export default new Vuex.Store({
         method: 'get',
         url: `${API_URL}/movies/`
       })
-      .then((res) => {
-        console.log(res)
-        state.movies = res.data
-      })
+        .then((res) => {
+          console.log(res)
+          state.movies = res.data
+          axios({
+            method: 'get',
+            url: `${API_URL}/movies/genres`
+          })
+          .then((res) => {
+            console.log(res);
+            const genres = res.data;
+          
+            state.movies.forEach((movie) => {
+              movie.genre_ids = movie.genre_ids.map((genreId) => {
+                const genre = genres.find((genre) => genre.id === genreId);
+                return genre ? genre.name.replace(/"/g, "") : null;
+              });
+            });
+          })
+            .catch((err) => {
+              console.log(err)
+              alert('영화 데이터 조작 실패')
+            })
+          })
       .catch((err) => {
         console.log(err)
+        alert('영화 불러오기 실패')
       })
     }
   },
@@ -146,14 +169,14 @@ export default new Vuex.Store({
         
       })
       .catch((err) => {
+        alert('아이디와 비밀번호를 정확히 입력해주세요')
         console.log(err)
       })
 
-      console.log(username, password)
     },
     LogOut(context) {
       context.commit('LOGOUT')
-    }
+    },
   },
   modules: {
   }
