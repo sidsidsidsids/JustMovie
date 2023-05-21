@@ -38,6 +38,7 @@ export default {
   },
   created() {
     this.getMovies()
+    this.getComments()
   },
   computed: {
     isLogin() {
@@ -65,6 +66,15 @@ export default {
       }
       console.log('영화받으러간다')
       this.$store.commit('GET_MOVIE')
+    },
+    getComments() {
+      if (this.$store.state.comments) {
+        console.log('yescomments')
+        console.log(this.$store.state.comments)
+        return
+      }
+      console.log('코멘트받으러')
+      this.$store.commit('GET_COMMENT')
     }
 
   }

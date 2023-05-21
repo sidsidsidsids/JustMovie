@@ -40,7 +40,10 @@ export default new Vuex.Store({
     },
     getMovieById: (state) => (movie_id) => {
       return state.movies.find(movie => movie.movie_id === movie_id);
-    }
+    },
+    getCommentsByMovieId: (state) => (movieId) => {
+      return state.comments.filter(comment => comment.movie === movieId);
+    },
   },
   mutations: {
     SAVE_TOKEN(state, token){
@@ -121,6 +124,19 @@ export default new Vuex.Store({
         console.log(err)
         alert('영화 불러오기 실패')
       })
+    },
+    GET_COMMENT(state) {
+      axios({
+        method: 'get',
+        url: `${API_URL}/movies/comment`
+      })
+      .then((res) => {
+        console.log(res)
+        state.comments = res.data
+      })
+      .catch((err) => {
+        console.log(err)
+      })
     }
   },
   actions: {
@@ -172,12 +188,56 @@ export default new Vuex.Store({
         alert('아이디와 비밀번호를 정확히 입력해주세요')
         console.log(err)
       })
-
     },
     LogOut(context) {
       context.commit('LOGOUT')
     },
+    submitComment({ state, commit }, payload){
+      const content = payload.content
+      const star_score = payload.star_score
+      const movie = payload.movie
+      const user = state.user
+      console.log(content, star_score, movie, user)
+
+      axios({
+        method: 'post',
+        url: `${API_URL}/movies/comment`,
+        data: {
+          content,
+          star_score,
+          movie,
+          user,
+        }
+      })
+      .then(response => {
+        // 댓글 작성 성공 후 처리할 내용
+        console.log('댓글 작성 성공:', response.data);
+        // 페이지 리로드 또는 다른 작업 수행
+        commit('GET_COMMENT')
+      })
+      .catch(error => {
+        // 댓글 작성 실패 시 처리할 내용
+        console.error('댓글 작성 실패:', error.response);
+      });
+    },
+    deleteComment({ commit }, id){
+      const comment_id = id
+      console.log(comment_id,id)
+      axios({
+        method: 'delete',
+        url: `${API_URL}/movies/comment/${comment_id}`
+      })
+      .then(response => {
+        console.log(response.data)
+        commit('GET_COMMENT')
+      })
+      .catch(error => {
+        console.error(error.response)
+      })
+    }
   },
   modules: {
   }
 })
+
+

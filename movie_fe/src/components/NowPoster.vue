@@ -1,7 +1,7 @@
 <template>
     <div id="now_playing_card" 
     :style="{ backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url(https://image.tmdb.org/t/p/w780${movie.backdrop_path})`}">
-      <p>{{ movie.title }}</p>
+      <h4>{{ movie.title }}</h4>
       <img 
       :src="`https://image.tmdb.org/t/p/w185${movie.poster_path}`"
       alt="no image"
