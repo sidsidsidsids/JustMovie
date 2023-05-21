@@ -23,6 +23,6 @@ class Comments(models.Model):
     star_score = models.FloatField()
     movie = models.ForeignKey(Movies, on_delete=models.CASCADE)
     user = models.ForeignKey(Accounts, on_delete=models.CASCADE)
-    user_profile_img = models.ImageField(upload_to='comment_profile_images/')
+    user_profile_img = models.ImageField(upload_to='comment_profile_images/', null=True)
     likes = models.PositiveIntegerField(default=0)
     dislikes = models.PositiveIntegerField(default=0)

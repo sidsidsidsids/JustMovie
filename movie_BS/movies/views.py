@@ -38,9 +38,9 @@ def comments_list(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def comments_detail(request, comment_id):
+def comments_detail(request, id):
     try:
-        comment = Comments.objects.get(comment_id=comment_id)
+        comment = Comments.objects.get(comment_id=id)
     except Comments.DoesNotExist:
         return Response(status=404)
 
