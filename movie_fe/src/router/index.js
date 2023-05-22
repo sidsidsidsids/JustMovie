@@ -6,7 +6,8 @@ import LoginPage from '../views/LoginPage.vue'
 import DetailPage from '../views/DetailPage.vue'
 import ProfilePage from '../views/ProfilePage.vue'
 // import FollowPage from '../views/FollowPage.vue'
-
+import CommunityPage from '../views/CommunityPage.vue'
+import store from '../store'
 
 Vue.use(VueRouter)
 
@@ -37,7 +38,12 @@ const routes = [
     name: 'detail',
     component: DetailPage,
     // meta: { requiresAuth: true } // 인증이 필요한 페이지임을 표시
-  }
+  },
+  {
+    path: '/community',
+    name: 'community',
+    component: CommunityPage
+  },
 ]
 
 const router = new VueRouter({
@@ -46,7 +52,21 @@ const router = new VueRouter({
   routes
 })
 
-// router.beforeEach((to, from, next) => {
+router.beforeEach((to, from, next) => {
+  const login_now = store.getters.isLogin
+  if (to.path === '/' || to.path === '/create' || to.path === '/login') {
+    // '/' 또는 '/create' 경로로 이동하려고 할 때는 이동을 허용합니다.
+    next();
+  } else if (login_now) {
+    // 로그인 상태인 경우 이동을 허용합니다.
+    next();
+  } else {
+    alert('로그인 후 이용 가능합니다')
+    // 로그인하지 않은 상태이면 '/login'으로 리다이렉트합니다.
+    
+    router.push('/login');
+  }
+});
 //   if (to.name === 'profile') {
 //     // 프로필 페이지에 접근하는 경우
 //     const isLogin = router.app.$store.getters.isLogin

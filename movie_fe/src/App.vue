@@ -33,7 +33,7 @@
           <router-link to="/">Home</router-link>
         </div>
         <div class="sidebar-item">
-          <router-link to="/">Community</router-link>
+          <router-link to="/community">Community</router-link>
         </div>
         <div class="sidebar-item">
           <div class="search-container">

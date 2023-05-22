@@ -47,6 +47,7 @@ export default new Vuex.Store({
       return
     },
     getMovieById: (state) => (movie_id) => {
+      console.log('getters:', movie_id)
       return state.movies.find(movie => movie.movie_id === movie_id);
     },
     getCommentsByMovieId: (state) => (movieId) => {
