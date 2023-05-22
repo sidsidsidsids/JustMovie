@@ -74,6 +74,7 @@
       v-for="movie in movies"
       :key="movie.movie_id"
       :movie="movie"
+      class="carousel-item"
       />
       </div>
         </div>

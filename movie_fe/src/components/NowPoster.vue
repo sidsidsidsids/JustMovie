@@ -7,7 +7,7 @@
       alt="no image"
       id="poster"
       @click="gotoDetail(movie.movie_id)">
-      <p>{{ movie.overview }}</p>
+      <p>{{ truncateOverview(movie.overview, 180) }}</p>
     </div>
 </template>
 
@@ -18,6 +18,12 @@ export default {
     gotoDetail(movie_id) {
       console.log('디테일로가요')
       this.$router.push({ name: 'detail', params: { movie_id } })
+    },
+    truncateOverview(overview, maxLength) {
+      if (overview.length > maxLength) {
+        return overview.slice(0, maxLength) + '...';
+      }
+      return overview;
     }
   }
 }
