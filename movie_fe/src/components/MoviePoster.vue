@@ -1,10 +1,13 @@
 <template>
   <div id="posters">
-    <img 
+    <div class="poster-container">
+      <img
         :src="`https://image.tmdb.org/t/p/w185${movie.poster_path}`"
         alt="no image"
         id="m_poster"
-        @click="gotoDetail(movie.movie_id)">
+        @click="gotoDetail(movie.movie_id)"
+      />
+    </div>
   </div>
 </template>
 
@@ -28,6 +31,13 @@ export default {
 #posters{
   margin: 8px;
 }
+
+.poster-container {
+  display: inline-block;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
 #m_poster{
   border-radius: 12px;
   cursor: pointer;
