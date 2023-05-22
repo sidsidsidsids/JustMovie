@@ -32,6 +32,14 @@ export default new Vuex.Store({
       }
       return
     },
+    getMoviesByIds: (state) => {
+      return (movieIds) => {
+        if (state.movies) {
+          return state.movies.filter(movie => movieIds.includes(movie.movie_id));
+        }
+        return [];
+      }
+    },
     getMovies(state) {
       if (state.movies) {
         return state.movies
@@ -133,11 +141,34 @@ export default new Vuex.Store({
       .then((res) => {
         console.log(res)
         state.comments = res.data
+        
+        axios({
+          method: 'get',
+          url: `${API_URL}/api/v1/users/nickname`
+        })
+        .then((res) => {
+          console.log(res);
+          const nicknames = res.data;
+          console.log('nickname')
+          console.log(nicknames)
+          
+          state.comments.forEach((comment) => {
+            const user = nicknames.find((u) => u.id === comment.user);
+            comment.user = user.nickname ? user.nickname : null;
+          });
+        })
+          .catch((err) => {
+            console.log(err)
+            alert('유저 데이터 조작 실패')
+          })
       })
       .catch((err) => {
         console.log(err)
       })
-    }
+    },
+    // UPDATE_STARSCORE(state, datas) {
+    //   return
+    // }
   },
   actions: {
     signUp(context, payload){
@@ -214,18 +245,22 @@ export default new Vuex.Store({
         console.log('댓글 작성 성공:', response.data);
         // 페이지 리로드 또는 다른 작업 수행
         commit('GET_COMMENT')
+        
       })
       .catch(error => {
         // 댓글 작성 실패 시 처리할 내용
         console.error('댓글 작성 실패:', error.response);
       });
     },
-    deleteComment({ commit }, id){
+    deleteComment({ state, commit }, id){
       const comment_id = id
       console.log(comment_id,id)
       axios({
         method: 'delete',
-        url: `${API_URL}/movies/comment/${comment_id}`
+        url: `${API_URL}/movies/comment/${comment_id}`,
+        headers: {
+          Authorization: `Token ${state.token}`,
+        },
       })
       .then(response => {
         console.log(response.data)
@@ -234,7 +269,62 @@ export default new Vuex.Store({
       .catch(error => {
         console.error(error.response)
       })
-    }
+    },
+    cal_starScore({ getters, commit }, movie_id) {
+      console.log('cal 로그')
+      console.log(movie_id)
+      const comments = getters.getCommentsByMovieId(movie_id)
+      console.log(comments)
+
+      let averageStarScore = 0
+
+      if (comments.length === 0) {
+        // averageStarScore = 0 // 해당 영화의 comment가 없을 경우 0을 반환
+        console.log('무', averageStarScore)
+      } else {
+        const totalStarScore = comments.reduce((sum, comment) => sum + comment.star_score, 0);
+        console.log('총점: ',totalStarScore)
+        averageStarScore = (totalStarScore / comments.length).toFixed(1)
+        averageStarScore = parseFloat(averageStarScore)
+        console.log('평점: ', averageStarScore)
+      }
+      
+      // commit('UPDATE_STARSCORE', [averageStarScore, movie_id])
+      // return averageStarScore; // 평균 star_score 반환
+      axios({
+        method: 'get',
+        url: `${API_URL}/movies/${movie_id}`,
+        // data: {
+        //   star_score: parseInt(averageStarScore)
+        // },
+      })
+      .then((response) => {
+        console.log('점수 영화 조회', response.data)
+
+        axios({
+          method: 'patch',
+          url: `${API_URL}/movies/${movie_id}`,
+          data: {
+            movie_id: movie_id,
+            star_score: averageStarScore,
+            genre_ids: response.data.genre_ids,
+            overview: response.data.overview,
+            poster_path: response.data.poster_path,
+            title: response.data.title
+          }
+        })
+        .then((res) => {
+          console.log('점수 업데이트?', res.data)
+          commit('GET_MOVIE')
+        })
+        .catch((err) => {
+          console.log('점수 업데이트 실패',err)
+        })
+      })
+      .catch((error) => {
+        console.error('점수 업데이트 실패',error)
+      })
+    },
   },
   modules: {
   }
