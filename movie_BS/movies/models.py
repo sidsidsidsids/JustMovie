@@ -15,7 +15,7 @@ class Movies(models.Model):
     vote_count = models.PositiveIntegerField(default=0)
     vote_average = models.FloatField(default=0.0)
     backdrop_path = models.CharField(max_length=255, null=True)
-    star_score = models.ForeignKey('Comments', null=True, blank=True, related_name='movies', on_delete=models.CASCADE)
+    star_score = models.FloatField()
 
 class Comments(models.Model):
     comment_id = models.AutoField(primary_key=True)

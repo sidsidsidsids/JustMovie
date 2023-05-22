@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
-from rest_framework.decorators import api_view, renderer_classes
+from rest_framework.decorators import api_view, renderer_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from .models import Movies, Comments, Genre
@@ -13,13 +14,19 @@ def movie_list(request):
     serialized_movies = MoviesSerializer(movies, many=True)
     return Response(serialized_movies.data)
 
-@api_view(['GET', 'PATCH'])
+@api_view(['GET', 'PUT', 'PATCH'])
 # @renderer_classes([JSONRenderer])
 def movie_detail(request, id):
     movie = get_object_or_404(Movies, movie_id=id)
     if request.method == 'GET':
         serialized_movie = MovieDetailSerializer(movie)
         return Response(serialized_movie.data)
+    elif request.method == 'PATCH':
+        serialized_movie = MovieDetailSerializer(movie, data=request.data)
+        print(serialized_movie)
+        if serialized_movie.is_valid():
+            serialized_movie.save()
+            return Response(serialized_movie.data)
 
 @api_view(['GET', 'POST'])
 def comments_list(request):
@@ -38,6 +45,7 @@ def comments_list(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([IsAuthenticated])
 def comments_detail(request, id):
     try:
         comment = Comments.objects.get(comment_id=id)

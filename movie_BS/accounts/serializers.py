@@ -13,6 +13,11 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['nickname', 'email', 'profile_img'] 
         # exclude = ['username', 'password', 'followings']
 
+class UserNicknameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Accounts
+        fields = ['id', 'nickname']
+
 
 class CustomRegisterSerializer(RegisterSerializer):
     nickname = serializers.CharField(required=True, max_length=150)

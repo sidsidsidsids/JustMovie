@@ -15,7 +15,7 @@ from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from .models import Accounts
-from .serializers import UserListSerializer, UserSerializer
+from .serializers import UserListSerializer, UserSerializer, UserNicknameSerializer
 from django.shortcuts import get_object_or_404, get_list_or_404
 
 @api_view(['GET'])
@@ -36,3 +36,9 @@ def user_detail(request, id):
         if serialized_user.is_valid(raise_exception=True):
             serialized_user.save()
             return Response(serialized_user.data)
+        
+@api_view(['GET'])
+def user_nickname(request):
+    users = get_list_or_404(Accounts)
+    serialized_users = UserNicknameSerializer(users, many=True)
+    return Response(serialized_users.data)
