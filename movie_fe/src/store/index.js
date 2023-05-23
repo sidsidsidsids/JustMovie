@@ -196,8 +196,12 @@ export default new Vuex.Store({
         context.commit('SAVE_TOKEN', res.data.key)
       })
       .catch((err) => {
-        console.log('b')
         console.log(err.response)
+        const errormessage = err.response.data
+        console.log(errormessage)
+        const errorm = err.data
+        console.log(errorm)
+        alert(err.data)
       })
     },
     login(context, payload) {

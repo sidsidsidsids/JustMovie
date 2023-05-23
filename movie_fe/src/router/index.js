@@ -16,7 +16,7 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '/home',
     name: 'main',
     component: MainPage
   },
@@ -70,7 +70,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const login_now = store.getters.isLogin
-  if (to.path === '/' || to.path === '/create' || to.path === '/login') {
+  if (to.path === '/home' || to.path === '/create' || to.path === '/login') {
     // '/' 또는 '/create' 경로로 이동하려고 할 때는 이동을 허용합니다.
     next();
   } else if (login_now) {

@@ -13,14 +13,16 @@
     <nav>
       <div class="nav-items">
         <div class="logo-container">
-          <router-link to="/">
+          <router-link to="/home">
             <img src="./assets/logo2.png" alt="Logo" class="logo" />
           </router-link>
         </div>
         <div class="button-container">
-          <router-link v-if="isLogin" :to="{ name: 'profile', params: { id: $store.state.user } }">My Account</router-link>
-          <router-link v-else to="/login">로그인</router-link>
-          <button v-if="isLogin" class="logout-button" @click="logout">Logout</button>
+          <router-link v-if="isLogin" :to="{ name: 'profile', params: { id: $store.state.user } }" class="logbutton">My Account</router-link>
+          <router-link v-else to="/create" class="logbutton">회원가입</router-link>
+          <router-link v-if="!isLogin" to="/login" class="logbutton">로그인</router-link>
+          <button v-if="isLogin" class="logbutton" @click="logout">Logout</button>
+          
         </div>
       </div>
     </nav>
@@ -30,7 +32,7 @@
         
         <div class="sidebar-item">
           <i class="fa fa-home"></i>
-          <router-link to="/">Home</router-link>
+          <router-link to="/home">Home</router-link>
         </div>
         <div class="sidebar-item">
           <router-link to="/community">Community</router-link>
@@ -213,6 +215,15 @@ nav {
   font-weight: bold; /* 볼드체 스타일 적용 */
 }
 
+.sidebar-item a:hover,
+.sidebar-item a.router-link-active {
+  color: #FFFFFF; /* 마우스를 올렸을 때 및 현재 활성화된 링크의 글자 색상 변경 */
+}
+
+.search-text:hover {
+  color: #FFFFFF
+}
+
 .nav-items {
   display: flex;
   flex-direction: row;
@@ -227,13 +238,13 @@ nav {
   margin-top: 30px;
 }
 
-.logout-button {
+.logbutton {
   background: none;
   border: none;
   cursor: pointer;
   padding: 0;
   font-size: inherit;
-  color: inherit;
+  color: white;
   text-decoration: underline;
 }
 

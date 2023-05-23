@@ -25,6 +25,7 @@
 
       
       <input type="submit" value="회원가입" class="signup-botton">
+      <p>이미 계정이 있습니까? 여기서 <button @click="gotoLogin" class="login-button1">로그인</button>.</p>
 
     </form>
     </div>
@@ -66,6 +67,9 @@ export default {
 
       this.$store.dispatch('signUp', payload)
     },
+    gotoLogin() {
+      this.$router.push({ name: 'login' })
+    }
     // handleFileUpload(event) {
     //   // 파일 업로드 처리
     //   const file = event.target.files[0];
@@ -120,7 +124,16 @@ export default {
   margin-top: 10px;
   margin-bottom: 20px;
 }
-
+.login-button1{
+    /* padding: 8px 16px; */
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 16px;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0px;
+}
 /* .form-container {
   display: flex;
   flex-direction: column;
