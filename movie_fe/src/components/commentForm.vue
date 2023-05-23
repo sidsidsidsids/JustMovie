@@ -1,14 +1,14 @@
 <template>
     <form @submit.prevent="submitComment">
     <div>
-      <label for="content">댓글 내용:</label>
+      <label for="content">Comment:</label>
       <textarea id="content" v-model="content" required></textarea>
     </div>
     <div>
-      <label for="starScore">별점:</label>
+      <label for="starScore"><font-awesome-icon icon="star" /> </label>
       <input type="number" id="starScore" v-model="starScore" min="0" max="5" required>
     </div>
-    <button type="submit">댓글 작성</button>
+    <button type="submit">Submit</button>
   </form>
 </template>
 

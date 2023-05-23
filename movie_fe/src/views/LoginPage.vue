@@ -1,5 +1,5 @@
 <template>
-<div id="app"
+<div id="app" class="background-container"
 :style="{ backgroundImage: `linear-gradient( rgba(25, 22, 31, 0.9), 
   rgba(25, 22, 31, 0.9) ), url(https://image.tmdb.org/t/p/original${r_movie.backdrop_path})`,
   backgroundSize: 'cover',
@@ -80,11 +80,11 @@ export default {
   margin-top: -150px; /* 로그인 창의 높이의 절반만큼 위로 이동합니다 */
 }
 
-.form-container {
+/* .form-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
+} */
 
 .input-field {
   width: 350px;

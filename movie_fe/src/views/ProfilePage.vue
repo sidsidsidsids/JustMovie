@@ -1,21 +1,19 @@
 <template>
   <div id='profile'>
-  <!-- 모달 부분 -->
     <div class="row">
       <div class="col text-center pt-2">
         <button
           id="changeButton"
           type="button"
           @click="
-            showModal = true
-            enableClose = false
+            gotoEdit
           "
         >
           프로필 수정
         </button>
       </div>
     </div>
-    <Modal v-model="showModal" 
+    <!-- <Modal v-model="showModal" 
     :title="enableClose ? 'Closable modal' : 'Unclosable modal'" 
     :enable-close="enableClose"
     wrapper-class="modal-wrapper"
@@ -42,19 +40,11 @@
           <p>재수정을 원하시면 버튼을 누른 후 다시 수정 후 제출하세요</p>
         </div>
       </div>
-      <!-- <button
-        type="button"
-        @click="enableClose = !enableClose"
-        id="outBtn"
-      > -->
+      
       <button type="button" @click="enableClose = !enableClose; modifyData()" id="submitButton" :disabled="!userdata.nickname.trim()">
         {{ enableClose ? '재수정하기' : '제출하기' }}
       </button>
-        <!-- :style="['btn btn-secondary', 
-        enableClose ? 'btn-danger' : 'btn-success']" -->
-        <!-- {{ enableClose ? 'Disable' : 'Enable' }} closing
-      </button> -->
-    </Modal>
+    </Modal> -->
   <!-- 모달 부분 끝 -->
     <div>
       <p>닉네임: {{ userdata.nickname }}</p>
@@ -87,8 +77,8 @@
 </template>
 
 <script>
-import VueModal from '@kouts/vue-modal'
-import '@kouts/vue-modal/dist/vue-modal.css'
+// import VueModal from '@kouts/vue-modal'
+// import '@kouts/vue-modal/dist/vue-modal.css'
 import axios from 'axios'
 // import carousel from 'vue-carousel'
 import MoviePoster from '@/components/MoviePoster'
@@ -96,7 +86,7 @@ const API_URL = 'http://127.0.0.1:8000'
 
 export default {
   components: {
-    Modal: VueModal,
+    // Modal: VueModal,
     MoviePoster,
     // carousel
   },
@@ -240,6 +230,9 @@ export default {
     imageChange() {
       const file = event.target.files[0]
       this.userdata.profile_img = file
+    },
+    gotoEdit() {
+      this.$router.push({ name: 'edit'})
     }
   }
 };

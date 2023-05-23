@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div id='entrance'>
     <div ref="canvas"></div>
-    <p>HELP</p>
+    <button id='mainBtn' @click="gotoMain">go</button>
   </div>
 </template>
 
@@ -147,15 +147,22 @@ export default {
       this.camera.updateProjectionMatrix();
 
       this.renderer.setSize(window.innerWidth, window.innerHeight);
+    },
+    gotoMain() {
+        this.$router.push({ name: 'main' })
     }
   }
 };
 </script>
 
 <style>
-canvas {
-  width: 100%;
-  height: 100%;
-  display: block;
+#entrance {
+    margin-top : -12.1%;
+    margin-left: -17.45%;
+}
+
+#mainBtn {
+    position: absolute;
+    margin: auto;
 }
 </style>

@@ -16,7 +16,7 @@
       <br>
       <p id='overview'>{{ movie.overview }}</p>
       <p>영화 평점 : {{movie.vote_average}} / 10&nbsp;&nbsp;
-      코멘트 점수 : {{ movie.star_score }} / 5</p>  
+      <font-awesome-icon icon="star" />   {{ movie.star_score }} / 5</p>  
     </div>
     <!-- 영화 정보 끝 -->
 
@@ -28,7 +28,7 @@
       >
         <h4>{{ comment.user }}</h4> 
         <p>" {{ comment.content }} "</p>
-        <p>{{ comment.star_score }}점</p>
+        <p> <font-awesome-icon icon="star" /> {{ comment.star_score }}</p>
 
         <span>
           <button id="adjustBtn" v-if="comment.user === nickname"
@@ -45,7 +45,7 @@
             <p>글 내용 </p>
             <input type="text" 
             v-model="modifyContent"><br>
-            <p>별점 </p>
+            <p><font-awesome-icon icon="star" /> </p>
             <input type="number" 
             id="starScore" 
             v-model="modifyStarscore" 

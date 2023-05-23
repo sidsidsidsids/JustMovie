@@ -9,12 +9,18 @@ import ProfilePage from '../views/ProfilePage.vue'
 import CommunityPage from '../views/CommunityPage.vue'
 import SettingsPage from '../views/SettingsPage.vue'
 import HelpPage from '../views/HelpPage.vue'
-
+import EditPage from '../views/EditPage.vue'
+import EntrancePage from '../views/EntrancePage.vue'
 import store from '../store'
 
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '/',
+    name: 'entrance',
+    component: EntrancePage
+  },
   {
     path: '/home',
     name: 'main',
@@ -57,6 +63,11 @@ const routes = [
     name: 'help',
     component: HelpPage
   },
+  {
+    path: '/edit',
+    name: 'edit',
+    component: EditPage
+  }
 ]
 
 const router = new VueRouter({
@@ -70,7 +81,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const login_now = store.getters.isLogin
-  if (to.path === '/home' || to.path === '/create' || to.path === '/login') {
+  if (to.path === '/home' || to.path === '/create' || to.path === '/help' || to.path === '/' || to.path === '/login') {
     // '/' 또는 '/create' 경로로 이동하려고 할 때는 이동을 허용합니다.
     next();
   } else if (login_now) {

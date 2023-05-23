@@ -16,10 +16,11 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { faScrewdriverWrench } from '@fortawesome/free-solid-svg-icons'
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons'
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import { faStar } from '@fortawesome/free-solid-svg-icons'
 
 // import { faGear } from '@fortawesome/free-brands-svg-icons'
 /* add icons to the library */
-library.add(faHouse, faUsers, faMagnifyingGlass, faScrewdriverWrench, faCircleInfo, faRightFromBracket)
+library.add(faHouse, faUsers, faMagnifyingGlass, faScrewdriverWrench, faCircleInfo, faRightFromBracket, faStar)
 
 /* add font awesome icon component */
 Vue.component('font-awesome-icon', FontAwesomeIcon)

@@ -12,7 +12,7 @@
         :movie="getMovieById(comment.movie)"
         />
         <p>" {{ comment.content }} "</p>
-        <p> &nbsp; {{ comment.star_score }}점</p>
+        <p> &nbsp; <font-awesome-icon icon="star" /> {{ comment.star_score }}</p>
         
         <p class="right"> &nbsp; {{ comment.user }}</p>
     </div>
