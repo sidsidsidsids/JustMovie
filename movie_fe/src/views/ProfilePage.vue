@@ -90,13 +90,15 @@
 import VueModal from '@kouts/vue-modal'
 import '@kouts/vue-modal/dist/vue-modal.css'
 import axios from 'axios'
+// import carousel from 'vue-carousel'
 import MoviePoster from '@/components/MoviePoster'
 const API_URL = 'http://127.0.0.1:8000'
 
 export default {
   components: {
     Modal: VueModal,
-    MoviePoster
+    MoviePoster,
+    // carousel
   },
   data() {
     return {

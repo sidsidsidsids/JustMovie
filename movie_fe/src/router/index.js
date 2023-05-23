@@ -7,6 +7,9 @@ import DetailPage from '../views/DetailPage.vue'
 import ProfilePage from '../views/ProfilePage.vue'
 // import FollowPage from '../views/FollowPage.vue'
 import CommunityPage from '../views/CommunityPage.vue'
+import SettingsPage from '../views/SettingsPage.vue'
+import HelpPage from '../views/HelpPage.vue'
+
 import store from '../store'
 
 Vue.use(VueRouter)
@@ -44,12 +47,25 @@ const routes = [
     name: 'community',
     component: CommunityPage
   },
+  {
+    path: '/settings',
+    name: 'settings',
+    component: SettingsPage
+  },
+  {
+    path: '/help',
+    name: 'help',
+    component: HelpPage
+  },
 ]
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes,
+  options: {
+    ignoreDuplicates: true
+  }
 })
 
 router.beforeEach((to, from, next) => {
@@ -61,10 +77,13 @@ router.beforeEach((to, from, next) => {
     // 로그인 상태인 경우 이동을 허용합니다.
     next();
   } else {
-    alert('로그인 후 이용 가능합니다')
-    // 로그인하지 않은 상태이면 '/login'으로 리다이렉트합니다.
-    
-    router.push('/login');
+    if (to.path !== '/login') {
+      alert('로그인 후 이용 가능합니다')
+      // 로그인하지 않은 상태이면 '/login'으로 리다이렉트합니다.
+      router.push('/login');
+    } else {
+      next();
+    }
   }
 });
 //   if (to.name === 'profile') {

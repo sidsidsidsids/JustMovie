@@ -47,7 +47,6 @@ export default new Vuex.Store({
       return
     },
     getMovieById: (state) => (movie_id) => {
-      console.log('getters:', movie_id)
       return state.movies.find(movie => movie.movie_id === movie_id);
     },
     getCommentsByMovieId: (state) => (movieId) => {
@@ -98,8 +97,10 @@ export default new Vuex.Store({
     LOGOUT(state) {
       state.token = null
       state.user = null
+      state.userdata = null
       state.comments = null
-      router.push({name: 'main'})
+      state.movies = null
+      router.replace({name: 'main'})
     },
     GET_MOVIE(state) {
       axios({

@@ -52,10 +52,10 @@
           </div>
         </div>
         <div class="sidebar-item">
-          <router-link to="/">Settings</router-link>
+          <router-link to="/settings">Settings</router-link>
         </div>
         <div class="sidebar-item">
-          <router-link to="/">Help</router-link>
+          <router-link to="/help">Help</router-link>
         </div>
         <div class="sidebar-item">
           <router-link to="/">Exit</router-link>
@@ -151,13 +151,14 @@ body {
 }
 
 .search-input {
-  background-color: rgba(25, 22, 31, 1);
+  background-color: rgba(68, 65, 72, 0.5);
   color:aliceblue;
   border: none;
   border-bottom: 1px solid rgba(68, 65, 72, 1);
   padding: 5px;
   margin-right: 10px;
   margin-top: 5px; /* 검색어 입력창 위쪽 여백 추가 */
+  border-radius: 3.5px;
 
 }
 
@@ -165,6 +166,8 @@ body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: rgba(25, 22, 31, 1);
+  min-height: 100vh;
   text-align: center;
   color: #2c3e50;
   margin: 0px;

@@ -17,7 +17,7 @@
         <div class="carousel-inner" ref="carouselInner">
           <div class="carousel-wrapper">
             <MoviePoster
-              v-for="movie in shuffledMovie"
+              v-for="movie in scoreMovie"
               :key="movie.movie_id"
               :movie="movie"
               class="carousel-item"
@@ -82,6 +82,12 @@ export default {
       const movies = this.$store.getters.getMovies
       const s_movies = _.shuffle(movies)
       return s_movies
+    },
+    scoreMovie() {
+      const movies = this.$store.getters.getMovies
+      const sortedMovies = _.orderBy(movies, ['star_score'], ['desc']);
+      console.log('sort: ', sortedMovies)
+      return sortedMovies
     }
   },
   methods: {
@@ -95,10 +101,6 @@ export default {
       clearInterval(this.autoSlideInterval)
     },
     getMovies() {
-      if (this.$store.state.movies) {
-        console.log('yesmovie')
-        return
-      }
       console.log('영화받으러간다')
       this.$store.commit('GET_MOVIE')
     },

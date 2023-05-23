@@ -1,29 +1,39 @@
 <template>
-  <div id='join'>
-    <h1>회원가입</h1>
+<div id="apppppp" class="background-container"
+:style="{ backgroundImage: `linear-gradient( rgba(25, 22, 31, 0.9), 
+  rgba(25, 22, 31, 0.9) ), url(https://image.tmdb.org/t/p/original${r_movie.backdrop_path})`,
+  backgroundSize: 'cover',
+  backdropFilter: 'blur(100px)'}">
+  <div id='join' class="transparent-box">
+    <img src="../assets/logo4.png" alt="" style="margin-top: 30px; margin-bottom: 40px;">
+    <div class="form-container">
     <form @submit.prevent="signUp">
-      <label for="username">아이디 : </label>
-      <input type="text" id="username" v-model="username"><br>
+      <label for="username"></label>
+      <input type="text" id="username" v-model="username" placeholder="아이디" class="input-field"><br>
       
-      <label for="useremail">이메일 : </label>
-      <input type="email" id="useremail" v-model="useremail"><br>
+      <label for="useremail"></label>
+      <input type="email" id="useremail" v-model="useremail" placeholder="이메일" class="input-field"><br>
 
-      <label for="password1"> 비밀번호 : </label>
-      <input type="password" id="password1" v-model="password1"><br>
+      <label for="password1"></label>
+      <input type="password" id="password1" v-model="password1" placeholder="비밀번호" class="input-field"><br>
 
-      <label for="password2"> 비밀번호 확인 : </label>
-      <input type="password" id="password2" v-model="password2"><br>
+      <label for="password2"></label>
+      <input type="password" id="password2" v-model="password2" placeholder="비밀번호 확인" class="input-field"><br>
 
       <!-- <label for="profile_img">프로필 이미지: </label>
       <input type="file" id="profile_img" accept=".jpg, .png" @change="handleFileUpload"><br> -->
 
       
-      <input type="submit" value="SignUp">
-    </form>
-  </div>
-</template>
+      <input type="submit" value="회원가입" class="signup-botton">
 
+    </form>
+    </div>
+  </div>
+</div>
+</template>
+<script src="https://cdn.jsdelivr.net/lodash/4.17.15/lodash.min.js"></script>
 <script>
+import _ from 'lodash'
 export default {
   name: 'CreatePage',
   data() {
@@ -33,6 +43,13 @@ export default {
       password2: null,
       useremail: null,
       // profile_img: null,
+    }
+  },
+  computed: {
+    r_movie() {
+      const movies = this.$store.getters.getMovies
+      const s_movie = _.shuffle(movies)[0]
+      return s_movie
     }
   },
   methods: {
@@ -61,8 +78,54 @@ export default {
 </script>
 
 <style>
-#join {
-  background-color: rgba(25, 22, 31, 1);
-  color:aliceblue;
+.background-container {
+  position: relative;
+  min-height: 100vh; /* 최소한의 높이 설정 */
 }
+#join {
+  position: absolute;
+  width: 400px;
+  height: auto;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: white;
+  padding: 20px;
+  border-radius: 4px;
+  left: 50%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  top: 50%; /* 이 부분 삭제 */
+  transform: translate(-50%, -50%); /* 이 부분 삭제 */
+  text-align: center;
+  margin-top: -150px; /* 로그인 창의 높이의 절반만큼 위로 이동합니다 */
+}
+
+.input-field {
+  width: 350px;
+  padding: 10px;
+  background-color: rgba(51,51,51,0.5);
+  color: white;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 4px;
+}
+
+.signup-botton {
+  width: 100%;
+  padding: 10px;
+  background-color: white;
+  border: none;
+  border-radius: 4px;
+  color: rgba(25, 22, 31, 1);
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+/* .form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} */
+
+
 </style>
