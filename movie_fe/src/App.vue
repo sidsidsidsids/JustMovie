@@ -19,9 +19,9 @@
         </div>
         <div class="button-container">
           <router-link v-if="isLogin" :to="{ name: 'profile', params: { id: $store.state.user } }" class="logbutton">My Account</router-link>
-          <router-link v-else to="/create" class="logbutton">회원가입</router-link>
-          <router-link v-if="!isLogin" to="/login" class="logbutton">로그인</router-link>
-          <button v-if="isLogin" class="logbutton" @click="logout">Logout</button>
+          <router-link v-else to="/create" class="logbutton">Sign Up</router-link>
+          <router-link v-if="!isLogin" to="/login" class="logbutton" style="margin-right: 30px;">Login</router-link>
+          <button v-if="isLogin" class="logbutton" style="margin-right: 30px;" @click="logout">Logout</button>
           
         </div>
       </div>
@@ -31,15 +31,19 @@
         <h6 style='color:rgba(117, 114, 121, 1); margin-left: 50px'>MENU</h6>
         
         <div class="sidebar-item">
-          <i class="fa fa-home"></i>
-          <router-link to="/home">Home</router-link>
+          
+          <router-link to="/home"><font-awesome-icon icon="house" /> Home</router-link>
         </div>
         <div class="sidebar-item">
-          <router-link to="/community">Community</router-link>
+          
+          <router-link to="/community"><font-awesome-icon icon="users" /> Community</router-link>
         </div>
         <div class="sidebar-item">
           <div class="search-container">
-            <span class="search-text" @click="search">Search</span>
+          
+            <span class="search-text" @click="search"><font-awesome-icon icon="magnifying-glass" /> Search
+              
+            </span>
             <input ref="searchInput" 
             type="text" 
             v-model="searchQuery" 
@@ -54,13 +58,14 @@
           </div>
         </div>
         <div class="sidebar-item">
-          <router-link to="/settings">Settings</router-link>
+            
+          <router-link to="/settings"><font-awesome-icon icon="screwdriver-wrench" /> Settings</router-link>
         </div>
         <div class="sidebar-item">
-          <router-link to="/help">Help</router-link>
+          <router-link to="/help"><font-awesome-icon icon="circle-info" />  Help</router-link>
         </div>
         <div class="sidebar-item">
-          <router-link to="/">Exit</router-link>
+          <router-link to="/"><font-awesome-icon icon="right-from-bracket" />  Exit</router-link>
         </div>
       </div>
       <div class="main-content">
@@ -240,14 +245,21 @@ nav {
 
 .logbutton {
   background: none;
+  font-weight: bold;
   border: none;
   cursor: pointer;
-  padding: 0;
+  padding: 10px;
   font-size: inherit;
-  color: white;
-  text-decoration: underline;
+  color: rgba(117, 115, 120, 1);
+  text-decoration: none;
 }
 
+
+.logbutton:hover {
+  color: #FFFFFF; /* 마우스를 올렸을 때 및 현재 활성화된 링크의 글자 색상 변경 */
+  text-decoration: underline; /* 밑줄 제거 */
+  font-weight: bold; /* 볼드체 스타일 적용 */
+}
 .search-text {
   cursor: pointer;
   color: rgba(117, 115, 120, 1);

@@ -2,18 +2,29 @@ import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
 import router from './router'
-// window.addEventListener('beforeunload', () => {
-//   localStorage.setItem('storeState', JSON.stringify(store.state));
-// });
 
-// // 애플리케이션 로드 시 로컬 스토리지에서 상태를 가져와 저장소에 복원
-// window.addEventListener('load', () => {
-//   const storeState = localStorage.getItem('storeState');
-//   if (storeState) {
-//     store.replaceState(JSON.parse(storeState));
-//   }
-// });
-// // Vue.config.productionTip = false
+/* import the fontawesome core */
+import { library } from '@fortawesome/fontawesome-svg-core'
+
+/* import font awesome icon component */
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+/* import specific icons */
+import { faHouse } from '@fortawesome/free-solid-svg-icons'
+import { faUsers } from '@fortawesome/free-solid-svg-icons'
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import { faScrewdriverWrench } from '@fortawesome/free-solid-svg-icons'
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons'
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+
+// import { faGear } from '@fortawesome/free-brands-svg-icons'
+/* add icons to the library */
+library.add(faHouse, faUsers, faMagnifyingGlass, faScrewdriverWrench, faCircleInfo, faRightFromBracket)
+
+/* add font awesome icon component */
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+
+Vue.config.productionTip = false
 
 new Vue({
   store,
