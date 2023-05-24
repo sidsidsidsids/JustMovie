@@ -29,6 +29,7 @@ export default {
     computed: {
         ...mapGetters(['getMovieById']),
         comments() {
+           
             return this.$store.state.comments.slice().reverse()
         }
     },

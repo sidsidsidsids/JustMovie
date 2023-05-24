@@ -1,23 +1,19 @@
 <template>
-<div id="app" class="background-container"
-:style="{ backgroundImage: `linear-gradient( rgba(25, 22, 31, 0.9), 
-  rgba(25, 22, 31, 0.9) ), url(https://image.tmdb.org/t/p/original${r_movie.backdrop_path})`,
-  backgroundSize: 'cover',
-  backdropFilter: 'blur(100px)'}">
+<div id="app">
   <div id="edit">
     <img src="../assets/logo4.png" alt="" style="margin-top: 30px; margin-bottom: 40px;">
-    <div class="form-container">
+    <div>
       <form @submit.prevent="login">
-        <label for="nickname"></label>
+        <label for="nickname">닉네임</label>
         <input type="text" id="nickname" v-model="userdata.nickname" placeholder="닉네임을 입력하세요(필수)" class="input-field"><br>
 
-        <label for="useremail"></label>
-        <input type="email" id="useremail" v-model="userdata.email" placeholder="이메일을 입력하세요" class="input-field"><br>
+        <label for="useremail">이메일</label>
+        <input type="email" id="useremail" v-model="userdata.email" placeholder="이메일을 입력하세요" class="input-field" readonly><br>
 
         <input 
         type="submit" 
         value="제출" 
-        class="login-button" 
+        class="login-botton" 
         :disabled="!userdata.nickname.trim()"
         @click="modifyData">
       </form>
@@ -27,13 +23,12 @@
 </div>
 </template>
 
-<script src="https://cdn.jsdelivr.net/lodash/4.17.15/lodash.min.js"></script>
+
 <script>
-import _ from 'lodash'
 import axios from 'axios'
 const API_URL = 'http://127.0.0.1:8000'
 export default {
-  name: 'LoginPage',
+  name: 'EditPage',
   data() {
     return {
       username: null,
@@ -44,21 +39,12 @@ export default {
     userdata() {
       return this.$store.state.userdata
     },
-    r_movie() {
-      const movies = this.$store.getters.getMovies
-      const s_movie = _.shuffle(movies)[0]
-      return s_movie
-    }
   },
   methods: {
     modifyData() {
       console.log('제출')
       // const token = this.$store.state.token
-  
-      const data = {
-        nickname: this.userdata.nickname,
-        email: this.userdata.email
-      };
+      
 
 
       console.log('유저데이터아이디있나요')
@@ -81,7 +67,8 @@ export default {
       .then((response) => {
         // 업데이트 응답을 처리합니다.
         console.log('사용자 데이터가 업데이트되었습니다:', response.data);
-        this.$router.push({ name: 'profile' })
+        alert('설정 완료')
+        this.$router.push({ name: 'main' })
       })
       .catch((error) => {
         // 에러 응답을 처리합니다.
@@ -93,7 +80,7 @@ export default {
 </script>
 
 <style>
-#edit {
+/* #edit {
   position: absolute;
   width: 400px;
   height: auto;
@@ -106,6 +93,6 @@ export default {
   transform: translate(-50%, -50%);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   text-align: center;
-  margin-top: -150px; /* 로그인 창의 높이의 절반만큼 위로 이동합니다 */
-}
+  margin-top: -150px;
+} */
 </style>

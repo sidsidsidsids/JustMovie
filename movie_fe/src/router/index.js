@@ -1,16 +1,16 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import MainPage from '../views/MainPage.vue'
-import CreatePage from '../views/CreatePage.vue'
-import LoginPage from '../views/LoginPage.vue'
-import DetailPage from '../views/DetailPage.vue'
+// import CreatePage from '../views/CreatePage.vue'
+// import LoginPage from '../views/LoginPage.vue'
+// import DetailPage from '../views/DetailPage.vue'
 import ProfilePage from '../views/ProfilePage.vue'
 // import FollowPage from '../views/FollowPage.vue'
-import CommunityPage from '../views/CommunityPage.vue'
-import SettingsPage from '../views/SettingsPage.vue'
-import HelpPage from '../views/HelpPage.vue'
-import EditPage from '../views/EditPage.vue'
-import EntrancePage from '../views/EntrancePage.vue'
+// import CommunityPage from '../views/CommunityPage.vue'
+// import SettingsPage from '../views/SettingsPage.vue'
+// import HelpPage from '../views/HelpPage.vue'
+// import EditPage from '../views/EditPage.vue'
+// import EntrancePage from '../views/EntrancePage.vue'
 import store from '../store'
 
 Vue.use(VueRouter)
@@ -19,7 +19,7 @@ const routes = [
   {
     path: '/',
     name: 'entrance',
-    component: EntrancePage
+    component: () => import('@/components/EntrancePage.vue')
   },
   {
     path: '/home',
@@ -29,45 +29,45 @@ const routes = [
   {
     path: '/create',
     name: 'create',
-    component: CreatePage
+    component:() => import('@/views/CreatePage.vue')
   },
   {
     path: '/login',
     name: 'login',
-    component: LoginPage
+    component: () => import('@/views/LoginPage.vue')
   },
   {
     path: '/profile/:id', // user_id를 파라미터로 받음
     name: 'profile',
-    component: ProfilePage,
+    component: ProfilePage
     // meta: { requiresAuth: true } // 인증이 필요한 페이지임을 표시
   },
   {
     path: '/detail/:movie_id', // movie_id를 파라미터로 받음
     name: 'detail',
-    component: DetailPage,
+    component: () => import('@/views/DetailPage.vue'),
     // meta: { requiresAuth: true } // 인증이 필요한 페이지임을 표시
   },
   {
     path: '/community',
     name: 'community',
-    component: CommunityPage
+    component: () => import('@/views/CommunityPage.vue')
   },
   {
     path: '/settings',
     name: 'settings',
-    component: SettingsPage
+    component: () => import('@/views/SettingsPage.vue')
   },
   {
     path: '/help',
     name: 'help',
-    component: HelpPage
+    component: () => import('@/views/HelpPage.vue')
   },
-  {
-    path: '/edit',
-    name: 'edit',
-    component: EditPage
-  }
+  // {
+  //   path: '/edit',
+  //   name: 'edit',
+  //   component: EditPage
+  // }
 ]
 
 const router = new VueRouter({
@@ -97,6 +97,25 @@ router.beforeEach((to, from, next) => {
     }
   }
 });
+
+// router.beforeEach((to, from, next) => {
+//   const nickname = store.state.userdata.nickname
+//   const login_now = store.getters.isLogin
+//   if (login_now) {
+//     if (!nickname && from.path === '/profile') {
+//       // from URL과 to URL이 동일한 경우 '/'로 리디렉션
+//       alert('닉네임 입력 후 이용 가능합니다')
+//     } else {
+//       // 다른 조건에 따른 라우팅 처리
+//       // ...
+//       next();
+//     }
+//   }
+//   else {
+//     next();
+//   }
+// });
+
 //   if (to.name === 'profile') {
 //     // 프로필 페이지에 접근하는 경우
 //     const isLogin = router.app.$store.getters.isLogin

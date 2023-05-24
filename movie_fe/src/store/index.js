@@ -18,6 +18,7 @@ export default new Vuex.Store({
     token: null,
     userdata: null,
     movies: null,
+    smovie: null,
     comments: null,
   },
   getters: {
@@ -46,11 +47,17 @@ export default new Vuex.Store({
       }
       return
     },
-    getMovieById: (state) => (movie_id) => {
-      return state.movies.find(movie => movie.movie_id === movie_id);
+    // getMovieById: (state) => (movie_id) => {
+    //   return state.movies.find(movie => movie.movie_id === movie_id);
+    // },
+    getMoviebyId(state) {
+      return state.smovie
     },
     getCommentsByMovieId: (state) => (movieId) => {
       return state.comments.filter(comment => comment.movie === movieId);
+    },
+    getCommentsByUserNickname: (state) => (Nickname) => {
+      return state.comments.filter(comment => comment.user === Nickname);
     },
   },
   mutations: {
@@ -100,7 +107,7 @@ export default new Vuex.Store({
       state.userdata = null
       state.comments = null
       state.movies = null
-      router.replace({name: 'main'})
+      router.replace('/')
     },
     GET_MOVIE(state) {
       axios({
@@ -171,6 +178,43 @@ export default new Vuex.Store({
     // UPDATE_STARSCORE(state, datas) {
     //   return
     // }
+    get_movie_by_id(state, movie_id) {
+      const movieid = movie_id;
+      console.log('movieid: ', movieid.movie_id);
+      axios({
+        method: 'get',
+        url: `${API_URL}/movies/${movieid.movie_id}`
+      })
+        .then((res) => {
+          console.log(res);
+          const movie = res.data;
+          axios({
+            method: 'get',
+            url: `${API_URL}/movies/genres`
+          })
+            .then((res) => {
+              console.log(res);
+              const genres = res.data;
+    
+              movie.genre_ids = movie.genre_ids.map((genreId) => {
+                const genre = genres.find((genre) => genre.id === genreId);
+                return genre ? genre.name.replace(/"/g, '') : null;
+              });
+    
+              // 상태 변경 대신 저장
+              state.smovie = movie;
+              return;
+            })
+            .catch((err) => {
+              console.log(err);
+              alert('영화 데이터 조작 실패');
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+          alert('영화 불러오기 실패');
+        });
+    },
   },
   actions: {
     signUp(context, payload){

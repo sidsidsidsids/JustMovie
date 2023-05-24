@@ -64,8 +64,12 @@
         <div class="sidebar-item">
           <router-link to="/help"><font-awesome-icon icon="circle-info" />  Help</router-link>
         </div>
-        <div class="sidebar-item">
-          <router-link to="/"><font-awesome-icon icon="right-from-bracket" />  Exit</router-link>
+        <div class="sidebar-item-exit">
+          <router-link to="/">
+            <span @click="logout">
+              <font-awesome-icon icon="right-from-bracket" />  Exit
+            </span>
+          </router-link>
         </div>
       </div>
       <div class="main-content">
@@ -222,6 +226,22 @@ nav {
 
 .sidebar-item a:hover,
 .sidebar-item a.router-link-active {
+  color: #FFFFFF; /* 마우스를 올렸을 때 및 현재 활성화된 링크의 글자 색상 변경 */
+}
+.sidebar-item-exit {
+  /* margin-top: 15px; */
+  margin-bottom: 30px;
+  margin-left: 50px;
+  align-self: flex-start; /* 좌측 정렬로 변경 */
+}
+
+.sidebar-item-exit a {
+  color: rgba(117, 115, 120, 1); /* 텍스트 색상을 하얀색으로 변경 */
+  text-decoration: none; /* 밑줄 제거 */
+  font-weight: bold; /* 볼드체 스타일 적용 */
+}
+
+.sidebar-item-exit a:hover {
   color: #FFFFFF; /* 마우스를 올렸을 때 및 현재 활성화된 링크의 글자 색상 변경 */
 }
 

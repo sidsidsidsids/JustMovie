@@ -1,14 +1,25 @@
 <template>
-    <form @submit.prevent="submitComment">
+  <form @submit.prevent="submitComment" class="comment-form">
     <div>
-      <label for="content">Comment:</label>
-      <textarea id="content" v-model="content" required></textarea>
-    </div>
-    <div>
-      <label for="starScore"><font-awesome-icon icon="star" class="star" /> </label>
+      <label for="content"></label>
+      <div class="comment-input">
+        <textarea id="content" v-model="content" required></textarea>
+        <div class='value-input'>
+       
+      <div style="display:flex; align-items:center; justify-content:center; margin:0px;">
+      
+      <label for="starScore"><font-awesome-icon icon="star" class="star-icon" /> </label>
+      <span>별점 </span>
       <input type="number" id="starScore" v-model="starScore" min="0" max="5" required>
+
+      </div>
+       <button type="submit" class="comment-button">댓글 입력</button>
+      </div>
+      </div>
+      <div>
     </div>
-    <button type="submit">Submit</button>
+    </div>
+    
   </form>
 </template>
 
@@ -50,6 +61,69 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.value-input{
+  display: inline-block;
+}
+.comment-form {
+  margin-top: 20px;
+  color: #ffffff;
 
+}
+
+.comment-form div {
+  margin-bottom: 10px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+}
+
+.comment-input {
+  display: flex;
+  align-items:flex-start;
+}
+
+textarea {
+  height: 70px;
+  flex-grow: 1;
+  padding: 10px;
+  border: none;
+  background-color: rgba(51, 51, 51, 0.5);
+  color: #ffffff;
+  border-radius: 3.5px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button[type="submit"] {
+  padding: 10px 20px;
+  background-color: white;
+  color: rgba(51, 51, 51, 1);
+  border: none;
+  border-radius: 3.5px;
+  cursor: pointer;
+  height: 63px;
+}
+
+input[type="number"] {
+  width: 30px;
+  padding: 5px;
+  background-color: rgba(51, 51, 51, 0);
+  color: #ffffff;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 4px;
+}
+
+.star-icon {
+  margin-right: 5px;
+  color: rgba(246, 158, 0, 1);
+}
+.comment-button{
+  background-color: white;
+  border: none;
+  border-radius: 4px;
+  color: rgba(25, 22, 31, 1);
+  font-weight: bold;
+}
 </style>

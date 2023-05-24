@@ -2,7 +2,8 @@
   <div id='profile'>
     <div class="row">
       <div class="col text-center pt-2">
-        <button
+        <EditPage />
+        <!-- <button
           id="changeButton"
           type="button"
           @click="
@@ -10,182 +11,78 @@
           "
         >
           프로필 수정
-        </button>
+        </button> -->
       </div>
-    </div>
-    <!-- <Modal v-model="showModal" 
-    :title="enableClose ? 'Closable modal' : 'Unclosable modal'" 
-    :enable-close="enableClose"
-    wrapper-class="modal-wrapper"
-    class='model-footer'>
-      <div class="row">
-        <p><strong> 프로필 수정 창 </strong></p>
-        <p>닉네임 </p>
-        <input type="text" v-model="userdata.nickname"><br>
-        <p>이메일 </p>
-        <input type="email" v-model="userdata.email">
-        <p>이미지 </p>
-        <input type="file" 
-        accept=".jpg, .png, .jpeg"
-        @change="imageChange"><br>
-        <div v-if="!enableClose" class="col">
-          <div class="alert alert-warning mt-1" role="alert">
-            <p class="mb-1"><strong>WARNING: </strong></p>
-            <p>Nickname이 존재해야 합니다</p>
-            <br>
-          </div>
-        </div>
-        <div v-else class="col">
-          <p>해당 창 밖을 클릭하여 나갈 수 있습니다</p>
-          <p>재수정을 원하시면 버튼을 누른 후 다시 수정 후 제출하세요</p>
-        </div>
-      </div>
-      
-      <button type="button" @click="enableClose = !enableClose; modifyData()" id="submitButton" :disabled="!userdata.nickname.trim()">
-        {{ enableClose ? '재수정하기' : '제출하기' }}
-      </button>
-    </Modal> -->
-  <!-- 모달 부분 끝 -->
-    <div>
-      <p>닉네임: {{ userdata.nickname }}</p>
-      <p>이메일: {{ userdata.email }}</p>
-      <img src="../assets/logo4.png" alt="">
-      <br>
-      <button @click="tmpTest">데이터 검사기</button>
     </div>
     <div id="commentMovieList">
-      <div class="carousel">
-        <div class="carousel-arrow left" @click="slide(-1)" style="z-index: 1;">
-          &lt;
-        </div>
-        <div class="carousel-inner" ref="carouselInner">
-          <div class="carousel-wrapper">
-      <MoviePoster
-      v-for="movie in movies"
-      :key="movie.movie_id"
-      :movie="movie"
-      class="carousel-item"
-      />
-      </div>
-        </div>
-        <div class="carousel-arrow right" @click="slide(1)">
-          &gt;
-        </div>
-      </div>
+      <div class="commentBlock"
+    v-for="comment in myComments"
+    :key="comment.comment_id"
+    :style="{ backgroundImage: `linear-gradient( rgba(25, 22, 31, 0.9), 
+  rgba(25, 22, 31, 0.9) ), url(https://image.tmdb.org/t/p/original${getMovieById(comment.movie).backdrop_path})`,
+  backgroundSize: 'contain, 50%',
+  backdropFilter: 'blur(100px)'}"
+  @click="gotoDetail(comment.movie)">
+        <MiniPoster
+        :movie="getMovieById(comment.movie)"
+        />
+        <p>" {{ comment.content }} "</p>
+        <p> &nbsp; <font-awesome-icon icon="star" class="star" style="color: rgba(246, 158, 0, 1)"/> {{ comment.star_score }}</p>
+        
+        <p class="right"> &nbsp; {{ comment.user }}</p>
+    </div>
     </div>
   </div>
 </template>
 
 <script>
-// import VueModal from '@kouts/vue-modal'
-// import '@kouts/vue-modal/dist/vue-modal.css'
 import axios from 'axios'
-// import carousel from 'vue-carousel'
-import MoviePoster from '@/components/MoviePoster'
+import { mapGetters } from 'vuex'
+import MiniPoster from '@/components/MiniPoster'
+import EditPage from '@/components/EditPage'
 const API_URL = 'http://127.0.0.1:8000'
 
 export default {
+  name: 'profilePage',
   components: {
     // Modal: VueModal,
-    MoviePoster,
+    MiniPoster,
+    EditPage
     // carousel
   },
   data() {
     return {
-      showModal: false,
-      enableClose: false,
+      // showModal: false,
+      // enableClose: false,
       // userNickname: null,
       // userEmail: null,
       movies: null,
+      myComments: null,
     }
   },
   computed: {
+    ...mapGetters(['getMovieById']),
     userdata() {
       return this.$store.state.userdata
-    }
+    },
+    
     
     },
-  mounted() {
-    if (!this.userdata.nickname) {
-      this.$router.push({ name: 'edit'})
-    }
-    this.searchUserComment()
-    this.calculateCarousel()
-    this.startAutoSlide() // 추가: 컴포넌트 마운트 후 자동 슬라이드 시작
+  created() {
+    this.searchUserComment() 
   },
-  destroyed() {
-    this.stopAutoSlide() // 추가: 컴포넌트 언마운트 시 자동 슬라이드 중지
-  },
-  methods:{
-    tmpTest(){
-      console.log('state상태보기')
-      console.log(this.$store.state.user)
-      console.log(this.$store.state.token)
-      console.log(this.$store.state.userdata)
-      console.log(this.$store.state.movies)
-      console.log('aaa')
-      console.log(this.userdata)
-      axios({
-        method: 'get',
-        url: `${API_URL}/api/v1/users/`,
-        // headers: {
-        //   Authorization: `Token ${token}`,
-        // },
-      })
-    .then((res) => {
-      const userdata = res.data
-      console.log('bottom of it')
-      console.log(userdata)
-      // this.userNickname = userdata.first_name
-      // this.userEmail = userdata.email
-      
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-    },
-    startAutoSlide() {
-      this.autoSlideInterval = setInterval(() => {
-        this.slide(1) // 오른쪽으로 한 개씩 슬라이드
-      }, 5000) // 3초마다 슬라이드
-    },
 
-    stopAutoSlide() {
-      clearInterval(this.autoSlideInterval)
-    },
-    calculateCarousel() {
-      const carouselInner = this.$refs.carouselInner;
-      const carouselWrapper = carouselInner.querySelector('.carousel-wrapper');
-      this.wrapperWidth = carouselWrapper.offsetWidth;
-      this.numItems = carouselWrapper.childElementCount;
-    },
-    slide(direction) {
-      const carouselInner = this.$refs.carouselInner;
-      const maxOffset = this.wrapperWidth - (this.numVisibleItems * this.itemWidth);
-      const newOffset = carouselInner.scrollLeft + (direction * this.itemWidth * 3);
-      carouselInner.scrollLeft = Math.max(0, Math.min(maxOffset, newOffset));
-    },
+  methods:{
+    gotoDetail(movie_id) {
+      this.$router.push({ name: 'detail', params: { movie_id } });
+      },
     searchUserComment(){
-      axios({
-        method: 'get',
-        url: `${API_URL}/movies/comment`
-      })
-      .then((res) => {
-        console.log(res.data)
-        const userComments = res.data.filter(comment => comment.user === this.$store.state.user);
-        const movieIds = userComments.map(comment => comment.movie);
-        console.log('movieids: ', movieIds)
-        const myMovies = this.$store.getters.getMoviesByIds(movieIds)
-        console.log('myMovies: ', myMovies)
-        this.movies = myMovies
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+      const userNickname = this.$store.state.userdata.nickname
+      const UserComments = this.$store.getters.getCommentsByUserNickname(userNickname).slice().reverse()
+      this.myComments = UserComments
     },
 
     modifyData() {
-      console.log('제출')
       // const token = this.$store.state.token
   
       const data = {
@@ -219,22 +116,35 @@ export default {
         // 업데이트 응답을 처리합니다.
         console.log('사용자 데이터가 업데이트되었습니다:', response.data);
 
-        // 모달을 닫고 필요한 작업을 수행합니다.
-        this.showModal = false;
       })
       .catch((error) => {
         // 에러 응답을 처리합니다.
-        console.error('사용자 데이터 업데이트 중 오류가 발생했습니다:', error);
+        alert(error)
       });
     },
-    imageChange() {
-      const file = event.target.files[0]
-      this.userdata.profile_img = file
-    },
+    // imageChange() {
+    //   const file = event.target.files[0]
+    //   this.userdata.profile_img = file
+    // },
     gotoEdit() {
       this.$router.push({ name: 'edit'})
     }
-  }
+  },
+  beforeRouteLeave(to, from, next) {
+    const isLogin = this.$store.getters.isLogin
+    
+    if (isLogin) {
+      if (!this.userdata.nickname) {
+        alert('닉네임을 입력해야 이용할 수 있습니다.');
+        next(false); // 이동을 막습니다.
+      } else {
+        next(); // 이동을 허용합니다.
+      }
+    }
+    else {
+      next()
+    }
+  },
 };
 </script>
 
@@ -246,72 +156,26 @@ export default {
 /* #changeButton{
   background-color: greenyellow;
 } */
-.modal-footer {
-  padding: 15px 0px 0px 0px;
-  border-top: 1px solid #e5e5e5;
-  margin-left: -14px;
-  margin-right: -14px;
-}
-.modal-wrapper {
-  display: flex;
-  align-items: center;
-}
-.modal-wrapper .vm {
-  top: auto;
-}
-#outBtn {
-  background-color: grey;
-  color: #e5e5e5;
-}
 #commentMovieList {
-  margin-top: 20px;
-  display: flex;
+  margin-top: -600px;
+}
+
+.commentBlock {
+    display: flex;
+    background-color: rgba(25, 22, 31, 0.8);
+    border: 2px solid rgba(68, 65, 72, 0.8);
+    color: aliceblue;
+    border-radius: 10px;
+    margin: 10px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.row {
+  height:auto;
 }
 
 
 
-.carousel {
-  position: relative;
-  overflow: hidden;
-  margin-top: 20px;
-}
 
-.carousel-inner {
-  display: flex;
-  transition: transform 0.3s ease;
-  scroll-behavior: smooth;
-  overflow-x: hidden;
-}
-
-.carousel-wrapper {
-  display: flex;
-}
-
-.carousel-item {
-  flex: 0 0 auto;
-  width: 200px;
-  margin-right: 10px;
-}
-
-.carousel-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
-  background-color: rgba(0, 0, 0, 0.5);
-  color: #fff;
-  font-size: 24px;
-  line-height: 40px;
-  text-align: center;
-  cursor: pointer;
-}
-
-.carousel-arrow.left {
-  left: 0;
-}
-
-.carousel-arrow.right {
-  right: 0;
-}
 </style>

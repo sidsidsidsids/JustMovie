@@ -78,15 +78,14 @@ export default {
       const now_movie = _.shuffle(now_movies)
       return [now_movie[0], now_movie[1]]
     },
-    shuffledMovie() {
-      const movies = this.$store.getters.getMovies
-      const s_movies = _.shuffle(movies)
-      return s_movies
-    },
+    // shuffledMovie() {
+    //   const movies = this.$store.getters.getMovies
+    //   const s_movies = _.shuffle(movies)
+    //   return s_movies
+    // },
     scoreMovie() {
       const movies = this.$store.getters.getMovies
       const sortedMovies = _.orderBy(movies, ['star_score'], ['desc']);
-      console.log('sort: ', sortedMovies)
       return sortedMovies
     }
   },
@@ -101,16 +100,12 @@ export default {
       clearInterval(this.autoSlideInterval)
     },
     getMovies() {
-      console.log('영화받으러간다')
       this.$store.commit('GET_MOVIE')
     },
     getComments() {
       if (this.$store.state.comments) {
-        console.log('yescomments')
-        console.log(this.$store.state.comments)
         return
       }
-      console.log('코멘트받으러')
       this.$store.commit('GET_COMMENT')
     },
     calculateCarousel() {
