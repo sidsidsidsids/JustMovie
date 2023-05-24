@@ -56,10 +56,11 @@ export default {
     }
   },
   created() {
-    this.getMovies()
+    
     this.getComments()
   },
   mounted() {
+    this.getMovies()
     this.calculateCarousel()
     this.startAutoSlide() // 추가: 컴포넌트 마운트 후 자동 슬라이드 시작
   },

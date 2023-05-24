@@ -26,6 +26,9 @@ export default {
     components: {
         MiniPoster
     },
+    created() {
+        this.$store.commit('GET_COMMENT')
+    },
     computed: {
         ...mapGetters(['getMovieById']),
         comments() {

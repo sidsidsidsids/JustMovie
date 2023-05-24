@@ -30,8 +30,33 @@
         <p> &nbsp; <font-awesome-icon icon="star" class="star" style="color: rgba(246, 158, 0, 1)"/> {{ comment.star_score }}</p>
         
         <p class="right"> &nbsp; {{ comment.user }}</p>
+        <br>
+        <button class="comment-button1" id="adjustBtn"
+        @click="editComment(comment)">
+        수정
+        </button>
     </div>
     </div>
+    <Modal v-model="showModal" v-if="showModal && comment.comment_id === editingCommentId" 
+        title="코멘트 수정" 
+        wrapper-class="modal-wrapper"
+        class='model-footer'>
+          <div class="row">
+            <p><strong> 코멘트 수정 창 </strong></p>
+            <p>글 내용 </p>
+            <input type="text" 
+            v-model="modifyContent"><br>
+            <p><font-awesome-icon icon="star" class="star"/> </p>
+            <input type="number" 
+            id="starScore" 
+            v-model="modifyStarscore" 
+            min="0" max="5" required>
+            <br>
+          </div>
+          <button type="button" @click="modifyComment(comment.comment_id)" id="submitButton">
+            {{ '제출' }}
+          </button>
+        </Modal>
   </div>
 </template>
 
@@ -40,12 +65,14 @@ import axios from 'axios'
 import { mapGetters } from 'vuex'
 import MiniPoster from '@/components/MiniPoster'
 import EditPage from '@/components/EditPage'
+import VueModal from '@kouts/vue-modal'
+import '@kouts/vue-modal/dist/vue-modal.css'
 const API_URL = 'http://127.0.0.1:8000'
 
 export default {
   name: 'profilePage',
   components: {
-    // Modal: VueModal,
+    Modal: VueModal,
     MiniPoster,
     EditPage
     // carousel
@@ -56,8 +83,12 @@ export default {
       // enableClose: false,
       // userNickname: null,
       // userEmail: null,
+      showModal: false,
       movies: null,
       myComments: null,
+      editingCommentId: null,
+      modifyContent: null,
+      modifyStarscore: null,
     }
   },
   computed: {
@@ -128,7 +159,57 @@ export default {
     // },
     gotoEdit() {
       this.$router.push({ name: 'edit'})
-    }
+    },
+    editComment(comment) {
+      const commentId = comment.comment_id
+      console.log('edit')
+      this.editingCommentId = commentId
+      this.modifyContent = comment.content
+      this.modifyStarscore = comment.star_score
+      console.log('editDATA', this.comment)
+      this.showModal = true
+      return
+    },
+    modifyComment(id) {
+      // const data = {
+      //   comment_id: id,
+      //   content: this.comment.content,
+      //   star_score: this.comment.star_score,
+      // }
+      console.log(this.movie)
+      console.log(this.comment)
+      axios({
+        method: 'put',
+        url: `${API_URL}/movies/comment/${id}`,
+        data: {
+          comment_id: id,
+          user: this.user,
+          movie: this.movie.movie_id,
+          content: this.modifyContent,
+          star_score: this.modifyStarscore
+        },
+        headers: {
+          Authorization: `Token ${this.token}`,
+        },
+      })
+      .then((response) => {
+        // 업데이트 응답을 처리합니다.
+        console.log('댓글 데이터가 업데이트되었습니다:', response.data);
+
+        // 모달을 닫고 필요한 작업을 수행합니다.
+        this.showModal = false
+        this.editingCommentId= null
+        this.comment = {
+          content: null,
+          star_score: 0,
+        }
+        this.$store.commit('GET_COMMENT')
+      })
+      .catch((error) => {
+        // 에러 응답을 처리합니다.
+        console.error('댓글 데이터 업데이트 중 오류가 발생했습니다:', error);
+      });
+    },
   },
   beforeRouteLeave(to, from, next) {
     const isLogin = this.$store.getters.isLogin
@@ -175,7 +256,3 @@ export default {
   height:auto;
 }
 
-
-
-
-</style>

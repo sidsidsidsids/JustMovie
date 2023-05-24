@@ -17,9 +17,12 @@ export default new Vuex.Store({
     user: null,
     token: null,
     userdata: null,
+
     movies: null,
     smovie: null,
+
     comments: null,
+    scomment: null,
   },
   getters: {
     isLogin(state) {
@@ -131,6 +134,7 @@ export default new Vuex.Store({
                 return genre ? genre.name.replace(/"/g, "") : null;
               });
             });
+            
           })
             .catch((err) => {
               console.log(err)
@@ -215,6 +219,71 @@ export default new Vuex.Store({
           alert('영화 불러오기 실패');
         });
     },
+    get_comment_by_id(state, movie_id) {
+      const movieid = movie_id;
+      console.log('movieid: ', movieid.movie_id);
+      axios({
+        method: 'get',
+        url: `${API_URL}/movies/comment`
+      })
+        .then((res) => {
+          console.log(res);
+          const comments = res.data;
+          console.log('코멘트: ', comments)
+          
+          axios({
+            method: 'get',
+            url: `${API_URL}/api/v1/users/nickname`
+          })
+          .then((res) => {
+            console.log(res);
+            const nicknames = res.data;
+            console.log('nickname')
+            console.log(nicknames)
+            
+            comments.forEach((comment) => {
+              const user = nicknames.find((u) => u.id === comment.user);
+              comment.user = user.nickname ? user.nickname : null;
+            });
+            console.log(comments)
+            console.log(movieid.movie_id)
+            console.log(comments.filter(comment => String(comment.movie) === String(movieid.movie_id)));
+
+            state.scomment = comments.filter(comment => String(comment.movie) === String(movieid.movie_id))
+          })
+            .catch((err) => {
+              console.log(err)
+              alert('유저 데이터 조작 실패')
+            })
+
+          
+          // axios({
+          //   method: 'get',
+          //   url: `${API_URL}/movies/genres`
+          // })
+          //   .then((res) => {
+          //     console.log(res);
+          //     const genres = res.data;
+    
+          //     movie.genre_ids = movie.genre_ids.map((genreId) => {
+          //       const genre = genres.find((genre) => genre.id === genreId);
+          //       return genre ? genre.name.replace(/"/g, '') : null;
+          //     });
+    
+          //     // 상태 변경 대신 저장
+          //     state.smovie = movie;
+          //     return;
+          //   })
+          //   .catch((err) => {
+          //     console.log(err);
+          //     alert('영화 데이터 조작 실패');
+          //   });
+        })
+        .catch((err) => {
+          console.log(err);
+          alert('코멘트 불러오기 실패');
+        });
+    },
   },
   actions: {
     signUp(context, payload){
@@ -245,7 +314,8 @@ export default new Vuex.Store({
         console.log(errormessage)
         const errorm = err.data
         console.log(errorm)
-        alert(err.data)
+        alert('다음을 확인하세요. \n1. 두 비밀번호 입력 값이 동일해야 합니다. \n2. 다른 아이디를 사용해야 합니다.')
+        router.push({name: 'main'}) 
       })
     },
     login(context, payload) {
@@ -293,8 +363,9 @@ export default new Vuex.Store({
       .then(response => {
         // 댓글 작성 성공 후 처리할 내용
         console.log('댓글 작성 성공:', response.data);
+        console.log(response.data.movie)
         // 페이지 리로드 또는 다른 작업 수행
-        commit('GET_COMMENT')
+        commit('get_comment_by_id', {movie_id: response.data.movie})
         
       })
       .catch(error => {
@@ -314,17 +385,17 @@ export default new Vuex.Store({
       })
       .then(response => {
         console.log(response.data)
-        commit('GET_COMMENT')
+        commit('get_comment_by_id')
       })
       .catch(error => {
         console.error(error.response)
       })
     },
-    cal_starScore({ getters, commit }, movie_id) {
+    cal_starScore({state, commit }, movie_id) {
       console.log('cal 로그')
       console.log(movie_id)
-      const comments = getters.getCommentsByMovieId(movie_id)
-      console.log(comments)
+      const comments = state.scomment
+      console.log('계산할 comments: ', comments)
 
       let averageStarScore = 0
 
@@ -379,5 +450,4 @@ export default new Vuex.Store({
   modules: {
   }
 })
-
 

@@ -116,6 +116,7 @@ export default {
     console.log(this.$store.state.movies)
     console.log(this.comments)
     this.$store.commit('get_movie_by_id', { movie_id:this.$route.params.movie_id });
+    this.$store.commit('get_comment_by_id',{ movie_id:this.$route.params.movie_id })
     this.$store.dispatch('cal_starScore',this.movie.movie_id)
   },
   mounted() {
@@ -128,8 +129,10 @@ export default {
       return this.$store.state.smovie
     },
     comments() {
-      const movieID = this.$route.params.movie_id
-      return this.$store.getters.getCommentsByMovieId(movieID)
+      // const movieID = this.$route.params.movie_id
+      // return this.$store.getters.getCommentsByMovieId(movieID)
+
+      return this.$store.state.scomment.slice().reverse()
     },
     user() {
       return this.$store.state.user
@@ -139,6 +142,13 @@ export default {
     },
     token() {
       return this.$store.state.token
+    }
+  },
+  watch: {
+    comments(){
+      this.$store.dispatch('cal_starScore',this.movie.movie_id)
+      this.$store.commit('get_movie_by_id', { movie_id:this.$route.params.movie_id });
+      this.movie = this.$store.state.smovie
     }
   },
   methods: {
@@ -191,16 +201,17 @@ export default {
           content: null,
           star_score: 0,
         }
-        this.$store.commit('GET_COMMENT')
+        this.$store.commit('get_comment_by_id',{ movie_id:this.$route.params.movie_id })
+        this.$store.dispatch('cal_starScore',this.movie.movie_id)
       })
       .catch((error) => {
         // 에러 응답을 처리합니다.
         console.error('댓글 데이터 업데이트 중 오류가 발생했습니다:', error);
       });
     },
-    redirectTo() {
-    window.location.href = '/';
-  },
+  //   redirectTo() {
+  //   window.location.href = '/';
+  // },
     // ...mapActions(['get_movie_by_id']),
     // async setMovieData() {
     //   const movieId = this.$route.params.movie_id // 영화 ID 또는 원하는 값으로 설정
