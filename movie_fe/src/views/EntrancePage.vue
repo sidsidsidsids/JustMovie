@@ -1,6 +1,7 @@
 <template>
   <div id='entrance'>
-    <div ref="canvas"></div>
+    <div ref="canvas">
+    </div>
     <button id='mainBtn' @click="gotoMain">go</button>
   </div>
 </template>

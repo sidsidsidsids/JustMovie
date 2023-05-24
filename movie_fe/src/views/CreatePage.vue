@@ -24,7 +24,7 @@
       <input type="file" id="profile_img" accept=".jpg, .png" @change="handleFileUpload"><br> -->
 
       
-      <input type="submit" value="회원가입" class="signup-botton">
+      <input type="submit" value="다음" class="signup-botton">
       <p>이미 계정이 있습니까? 여기서 <button @click="gotoLogin" class="login-button1">로그인</button>.</p>
 
     </form>

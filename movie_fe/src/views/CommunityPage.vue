@@ -12,7 +12,7 @@
         :movie="getMovieById(comment.movie)"
         />
         <p>" {{ comment.content }} "</p>
-        <p> &nbsp; <font-awesome-icon icon="star" /> {{ comment.star_score }}</p>
+        <p> &nbsp; <font-awesome-icon icon="star" class="star" /> {{ comment.star_score }}</p>
         
         <p class="right"> &nbsp; {{ comment.user }}</p>
     </div>
@@ -63,5 +63,9 @@ export default {
 .right {
     margin-left:auto;
     margin-right: 10px;
+}
+
+.star {
+    color: rgba(246, 158, 0, 1);
 }
 </style>

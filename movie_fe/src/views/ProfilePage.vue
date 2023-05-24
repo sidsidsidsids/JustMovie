@@ -107,7 +107,7 @@ export default {
     },
   mounted() {
     if (!this.userdata.nickname) {
-      this.showModal= true
+      this.$router.push({ name: 'edit'})
     }
     this.searchUserComment()
     this.calculateCarousel()

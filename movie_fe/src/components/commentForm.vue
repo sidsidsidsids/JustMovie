@@ -5,7 +5,7 @@
       <textarea id="content" v-model="content" required></textarea>
     </div>
     <div>
-      <label for="starScore"><font-awesome-icon icon="star" /> </label>
+      <label for="starScore"><font-awesome-icon icon="star" class="star" /> </label>
       <input type="number" id="starScore" v-model="starScore" min="0" max="5" required>
     </div>
     <button type="submit">Submit</button>
