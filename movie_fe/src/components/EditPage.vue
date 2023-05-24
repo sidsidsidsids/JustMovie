@@ -1,19 +1,23 @@
 <template>
-<div id="app">
+<div id="app"
+:style="{ backgroundImage: `linear-gradient( rgba(25, 22, 31, 0.9), 
+  rgba(25, 22, 31, 0.9) ), url(https://image.tmdb.org/t/p/original${r_movie.backdrop_path})`,
+  backgroundSize: 'cover',
+  backdropFilter: 'blur(100px)'}">
   <div id="edit">
     <img src="../assets/logo4.png" alt="" style="margin-top: 30px; margin-bottom: 40px;">
     <div>
       <form @submit.prevent="login">
-        <label for="nickname">닉네임</label>
-        <input type="text" id="nickname" v-model="userdata.nickname" placeholder="닉네임을 입력하세요(필수)" class="input-field"><br>
+        <label for="nickname"></label>
+        <input type="text" id="nickname" v-model="userdata.nickname" placeholder="닉네임을 입력하세요(필수)" class="input-field1"><br>
 
-        <label for="useremail">이메일</label>
-        <input type="email" id="useremail" v-model="userdata.email" placeholder="이메일을 입력하세요" class="input-field" readonly><br>
+        <label for="useremail"></label>
+        <input type="email" id="useremail" v-model="userdata.email" placeholder="이메일을 입력하세요" class="input-field1" readonly><br>
 
         <input 
         type="submit" 
         value="제출" 
-        class="login-botton" 
+        class="cng-button" 
         :disabled="!userdata.nickname.trim()"
         @click="modifyData">
       </form>
@@ -23,8 +27,10 @@
 </div>
 </template>
 
+<script src="https://cdn.jsdelivr.net/lodash/4.17.15/lodash.min.js"></script>
 
 <script>
+import _ from 'lodash'
 import axios from 'axios'
 const API_URL = 'http://127.0.0.1:8000'
 export default {
@@ -39,6 +45,11 @@ export default {
     userdata() {
       return this.$store.state.userdata
     },
+    r_movie() {
+      const movies = this.$store.getters.getMovies
+      const s_movie = _.shuffle(movies)[0]
+      return s_movie
+    }
   },
   methods: {
     modifyData() {
@@ -80,7 +91,8 @@ export default {
 </script>
 
 <style>
-/* #edit {
+
+#edit {
   position: absolute;
   width: 400px;
   height: auto;
@@ -93,6 +105,29 @@ export default {
   transform: translate(-50%, -50%);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   text-align: center;
-  margin-top: -150px;
-} */
+  margin-top: -220px;
+}
+
+.input-field1 {
+  width: 350px;
+  padding: 10px;
+  background-color: rgba(51,51,51,0.5);
+  color: white;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 4px;
+}
+
+.cng-button{
+  width: 100%;
+  padding: 10px;
+  background-color: white;
+  border: none;
+  border-radius: 4px;
+  color: rgba(25, 22, 31, 1);
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
 </style>

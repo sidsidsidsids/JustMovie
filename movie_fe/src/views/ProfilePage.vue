@@ -157,7 +157,7 @@ export default {
   background-color: greenyellow;
 } */
 #commentMovieList {
-  margin-top: -600px;
+  margin-top: -450px;
 }
 
 .commentBlock {

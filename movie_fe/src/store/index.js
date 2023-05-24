@@ -47,9 +47,9 @@ export default new Vuex.Store({
       }
       return
     },
-    // getMovieById: (state) => (movie_id) => {
-    //   return state.movies.find(movie => movie.movie_id === movie_id);
-    // },
+    getMovieById: (state) => (movie_id) => {
+      return state.movies.find(movie => movie.movie_id === movie_id);
+    },
     getMoviebyId(state) {
       return state.smovie
     },
