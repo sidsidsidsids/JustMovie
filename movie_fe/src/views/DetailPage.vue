@@ -115,8 +115,8 @@ export default {
     console.log('STATE검사')
     console.log(this.$store.state.movies)
     console.log(this.comments)
-    this.$store.dispatch('cal_starScore',this.movie.movie_id)
     this.$store.commit('get_movie_by_id', { movie_id:this.$route.params.movie_id });
+    this.$store.dispatch('cal_starScore',this.movie.movie_id)
   },
   mounted() {
   },
