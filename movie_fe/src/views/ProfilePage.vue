@@ -100,6 +100,10 @@ export default {
     
     },
   created() {
+    if (this.$route.params.id !== this.$store.state.user) {
+      alert('유효하지 않은 접근')
+      this.$router.push({ name: 'main' })
+    }
     this.searchUserComment() 
   },
 
@@ -215,9 +219,9 @@ export default {
     const isLogin = this.$store.getters.isLogin
     
     if (isLogin) {
-      if (!this.userdata.nickname) {
+      if (!this.$store.state.userdata.nickname) {
         alert('닉네임을 입력해야 이용할 수 있습니다.');
-        next(false); // 이동을 막습니다.
+        // next(false); // 이동을 막습니다.
       } else {
         next(); // 이동을 허용합니다.
       }

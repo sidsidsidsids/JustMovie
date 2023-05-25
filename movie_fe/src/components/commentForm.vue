@@ -3,7 +3,7 @@
     <div>
       <label for="content"></label>
       <div class="comment-input">
-        <textarea id="content" v-model="content" required></textarea>
+        <textarea id="content" v-model="content" required style="resize:none;"></textarea>
         <div class='value-input'>
        
       <div style="display:flex; align-items:center; justify-content:center; margin:0px;">

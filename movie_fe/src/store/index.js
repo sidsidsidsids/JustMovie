@@ -314,7 +314,7 @@ export default new Vuex.Store({
         console.log(errormessage)
         const errorm = err.data
         console.log(errorm)
-        alert('다음을 확인하세요. \n1. 두 비밀번호 입력 값이 동일해야 합니다. \n2. 다른 아이디를 사용해야 합니다.')
+        alert('다음을 확인하세요. \n1. 두 비밀번호 입력 값이 동일해야 합니다. \n2. 다른 아이디를 사용해야 합니다. \n3. 다른 이메일을 사용해야 합니다.')
         router.push({name: 'main'}) 
       })
     },

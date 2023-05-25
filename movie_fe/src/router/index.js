@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import MainPage from '../views/MainPage.vue'
-// import CreatePage from '../views/CreatePage.vue'
-// import LoginPage from '../views/LoginPage.vue'
-// import DetailPage from '../views/DetailPage.vue'
+import CreatePage from '../views/CreatePage.vue'
+import LoginPage from '../views/LoginPage.vue'
+import DetailPage from '../views/DetailPage.vue'
 import ProfilePage from '../views/ProfilePage.vue'
 // import FollowPage from '../views/FollowPage.vue'
 // import CommunityPage from '../views/CommunityPage.vue'
@@ -29,12 +29,12 @@ const routes = [
   {
     path: '/create',
     name: 'create',
-    component:() => import('@/views/CreatePage.vue')
+    component: CreatePage
   },
   {
     path: '/login',
     name: 'login',
-    component: () => import('@/views/LoginPage.vue')
+    component: LoginPage
   },
   {
     path: '/profile/:id', // user_id를 파라미터로 받음
@@ -45,7 +45,7 @@ const routes = [
   {
     path: '/detail/:movie_id', // movie_id를 파라미터로 받음
     name: 'detail',
-    component: () => import('@/views/DetailPage.vue'),
+    component: DetailPage
     // meta: { requiresAuth: true } // 인증이 필요한 페이지임을 표시
   },
   {

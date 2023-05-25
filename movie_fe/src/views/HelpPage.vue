@@ -1,158 +1,75 @@
 <template>
-  <div>
+  <div id="Help"
+  :style="{ backgroundImage: `linear-gradient( rgba(25, 22, 31, 0.9), 
+  rgba(25, 22, 31, 0.9) ), url(https://image.tmdb.org/t/p/original${r_movie.backdrop_path})`,
+  backgroundSize: 'cover',
+  backdropFilter: 'blur(100px)'}">
     <!-- <div ref="canvas"></div> -->
-    <p>HELP</p>
+    
+    <div id="helpbox">
+    <p style="color:white; font-size:40px;">도움이 필요하신가요?</p>
+    <input type="text" id="username" v-model="username" placeholder="이름을 입력하세요" class="input-field2"><br>
+    <input type="text" id="email" v-model="email" placeholder="이메일을 입력하세요" class="input-field2"><br>
+    <textarea id="message" v-model="message" placeholder="문의 내용을 입력하세요" class="input-field2" style="height:200px; font-family: 'Arial', sans-serif; resize: none;"></textarea><br> <!-- 수정된 부분 -->
+    <input type="submit" value="문의하기" class="help-button" @click="ready">
+ 
+    </div>
   </div>
 </template>
 
 <script>
 // import * as THREE from 'three';
-
+import _ from 'lodash'
 export default {
-//   data() {
-//     return {
-//       scene: null,
-//       camera: null,
-//       renderer: null,
-//       cloudParticles: [],
-//       rainParticles: [],
-//       flash: null,
-//       rain: null,
-//       rainGeo: null
-//     };
-//   },
-//   mounted() {
-//     this.init();
-//   },
-//   methods: {
-//     init() {
-//       this.scene = new THREE.Scene();
-//       this.camera = new THREE.PerspectiveCamera(
-//         60,
-//         window.innerWidth / window.innerHeight,
-//         1,
-//         1000
-//       );
-//       this.camera.position.z = 1;
-//       this.camera.rotation.x = 1.16;
-//       this.camera.rotation.y = -0.12;
-//       this.camera.rotation.z = 0.27;
-
-//       const ambient = new THREE.AmbientLight(0x555555);
-//       this.scene.add(ambient);
-
-//       const directionalLight = new THREE.DirectionalLight(0xffeedd);
-//       directionalLight.position.set(0, 0, 1);
-//       this.scene.add(directionalLight);
-
-//       this.flash = new THREE.PointLight(0x062d89, 30, 500, 1.7);
-//       this.flash.position.set(200, 300, 100);
-//       this.scene.add(this.flash);
-
-//       this.renderer = new THREE.WebGLRenderer();
-
-//       this.scene.fog = new THREE.FogExp2(0x11111f, 0.002);
-//       this.renderer.setClearColor(this.scene.fog.color);
-
-//       this.renderer.setSize(window.innerWidth, window.innerHeight);
-//       this.$refs.canvas.appendChild(this.renderer.domElement);
-
-//       const positions = [];
-//       const sizes = [];
-//       const rainCount = 15000;
-//       this.rainGeo = new THREE.BufferGeometry();
-//       for (let i = 0; i < rainCount; i++) {
-//         const rainDrop = new THREE.Vector3(
-//           Math.random() * 400 - 200,
-//           Math.random() * 500 - 250,
-//           Math.random() * 400 - 200
-//         );
-//         positions.push(rainDrop.x, rainDrop.y, rainDrop.z);
-//         sizes.push(30);
-//       }
-//       this.rainGeo.setAttribute(
-//         'position',
-//         new THREE.Float32BufferAttribute(positions, 3)
-//       );
-//       this.rainGeo.setAttribute(
-//         'size',
-//         new THREE.Float32BufferAttribute(sizes, 1)
-//       );
-//       const rainMaterial = new THREE.PointsMaterial({
-//         color: 0xaaaaaa,
-//         size: 0.1,
-//         transparent: true
-//       });
-//       this.rain = new THREE.Points(this.rainGeo, rainMaterial);
-//       this.scene.add(this.rain);
-
-//       const loader = new THREE.TextureLoader();
-//       loader.load(
-//         'https://static.vecteezy.com/system/resources/previews/010/884/548/original/dense-fluffy-puffs-of-white-smoke-and-fog-on-transparent-background-abstract-smoke-clouds-movement-blurred-out-of-focus-smoking-blows-from-machine-dry-ice-fly-fluttering-in-air-effect-texture-png.png',
-//         (texture) => {
-//           const cloudGeo = new THREE.PlaneBufferGeometry(500, 500);
-//           const cloudMaterial = new THREE.MeshLambertMaterial({
-//             map: texture,
-//             transparent: true
-//           });
-
-//           for (let p = 0; p < 25; p++) {
-//             const cloud = new THREE.Mesh(cloudGeo, cloudMaterial);
-//             cloud.position.set(
-//               Math.random() * 800 - 400,
-//               500,
-//               Math.random() * 500 - 450
-//             );
-//             cloud.rotation.x = 1.16;
-//             cloud.rotation.y = -0.12;
-//             cloud.rotation.z = Math.random() * 360;
-//             cloud.material.opacity = 0.6;
-//             this.cloudParticles.push(cloud);
-//             this.scene.add(cloud);
-//           }
-//           this.animate();
-//           window.addEventListener('resize', this.onWindowResize);
-//         }
-//       );
-//     },
-//     animate() {
-//       this.cloudParticles.forEach((p) => {
-//         p.rotation.z -= 0.002;
-//       });
-//       this.rainGeo.attributes.size.array.forEach((r, i) => {
-//         this.rainGeo.attributes.size.array[i] += 0.3;
-//       });
-
-//       this.rainGeo.attributes.size.needsUpdate = true;
-
-//       this.rain.position.z -= 0.222;
-//       if (this.rain.position.z < -200) {
-//         this.rain.position.z = 0;
-//       }
-
-//       if (Math.random() > 0.93 || this.flash.power > 100) {
-//         if (this.flash.power < 100)
-//           this.flash.position.set(
-//             Math.random() * 400,
-//             300 + Math.random() * 200,
-//             100
-//           );
-//         this.flash.power = 50 + Math.random() * 500;
-//       }
-//       this.renderer.render(this.scene, this.camera);
-//       requestAnimationFrame(this.animate);
-//     },
-//     onWindowResize() {
-//       this.camera.aspect = window.innerWidth / window.innerHeight;
-//       this.camera.updateProjectionMatrix();
-
-//       this.renderer.setSize(window.innerWidth, window.innerHeight);
-//     }
-//   }
+  methods: {
+    ready() {
+      alert('접수되었습니다.')
+    }
+  },
+  computed: {
+    r_movie() {
+      const movies = this.$store.getters.getMovies
+      const s_movie = _.shuffle(movies)[0]
+      return s_movie
+    }
+  },
 };
 </script>
 
 <style>
+#Help{
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+#helpbox{
+  color: white;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  width: 500px;
+ 
+
+}
+.input-field2 {
+  width: 480px;
+  padding: 10px;
+  background-color: rgba(51,51,51,0.5);
+  color: white;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 4px;
+  }
+.help-button {
+  width: 100%;
+  padding: 10px;
+  background-color: white;
+  border: none;
+  border-radius: 4px;
+  color: rgba(25, 22, 31, 1);
+  font-weight: bold;
+  cursor: pointer;
+}
 canvas {
   width: 100%;
   height: 100%;

@@ -180,7 +180,7 @@ body {
   background-color: rgba(25, 22, 31, 1);
   min-height: 100vh;
   text-align: center;
-  color: #2c3e50;
+  color: #FFFFFF;
   margin: 0px;
 }
 
